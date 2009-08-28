@@ -1,0 +1,82 @@
+<html>
+<head>
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+  <title>YukYuk</title>
+
+<script type="text/javascript" charset="utf-8">
+	if( typeof console == 'undefined') { console = { log: function(msg) { ; } } };
+
+DEBUG_COLLISION = !true;
+</script>
+<script type="text/javascript" charset="utf-8" src='http://ajax.googleapis.com/ajax/libs/prototype/1.6.0.3/prototype.js'></script>
+<script type="text/javascript" charset="utf-8" src='javascripts/collision.js'></script>
+<script type="text/javascript" charset="utf-8" src='javascripts/gameconsole.js'></script>
+<script type="text/javascript" charset="utf-8" src='javascripts/brickslayer.js'></script>
+
+<script type="text/javascript" charset="utf-8">
+var paddle;
+var gameconsole;
+var game;
+
+/* preload */
+[ 'images/YukYuk_big_bite.png' ].each( function( item ) { 
+  var img = new Image(1,1);
+  img.src = item;
+} );
+
+</script>
+<script type="text/javascript" charset="utf-8" src='javascripts/yukyuk.js'></script>
+  
+  <style type="text/css" media="screen">
+    body { font-family: arial; }
+    #canvas
+    { border: 10px solid #DFDFDF; width: 700px; height: 500px; position: relative; margin: 0 auto; }
+    #yukyuk
+    { background: url('images/YukYuk_big.png') no-repeat top left; width: 500px; height: 388px; position: absolute;
+      bottom: -20px; right: -20px;
+    }
+    .open
+    { background: url('images/YukYuk_big_bite.png') no-repeat top left !important; }
+    
+    .soot
+    { position: absolute; background: url('images/soot.png') no-repeat top left; width: 19px; height: 17px; }
+		.bb
+		{ border: 1px solid red; position: absolute;}
+		#score
+		{ font-size: 40px; position: absolute; right: 0px; top: 0px; }
+  </style>
+</head>
+
+<body id="index" onload="">
+  
+  <div style='margin: 0 auto; width: 700px;font-size: 48px;; font-weight: bold; text-align: right;padding-right: 20px; '>
+    YukYuk
+  </div>  
+  
+	<div id="canvas">
+		<div id='score'>0</div>
+    <div id="yukyuk">
+      
+    </div>
+    <div id="soot1" class='soot'>
+      
+    </div>
+    
+    <div id="soot2" class='soot'>
+    </div>
+
+    <div id="soot3" class='soot'>
+    </div>
+
+    
+  </div>
+  
+  <div style='margin: 0 auto; width: 700px;font-size: 24px; color: #DFDFDF; font-weight: bold; text-align: right;padding-right: 20px; '>
+		left | right | space
+		<br/>
+		<input type='checkbox' onclick='window.DEBUG_COLLISION = !window.DEBUG_COLLISION;$$(".bb").invoke("hide")'/> Debug
+  </div>
+  
+</body>
+
+</html>
