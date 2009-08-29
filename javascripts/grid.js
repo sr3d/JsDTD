@@ -30,19 +30,20 @@ var Grid = Class.create( {
       
       for( var j = 0; j < this.y; j++ )
       {
-        this.grid[j] = false;
+        this.grid[i][j] = false;
       }
     }
   }
   
   /* add a new Tower to the grid at a coordinates */
   ,addTower: function( x, y, tower ){
+    console.log( "x:%s, y: %s ", x, y );
+    var tower = new tower( x, y, this );
+    console.info( tower );
      /* mark the cell as occupied */
     for( var i = 0; i < tower.size; i++ )
       for( j = 0; j < tower.size; j++ )
-        this.grid[i][j] = true;
-
-    var tower = new tower( x, y, this );
+        this.grid[ x + i][ y + j] = true;
     
     return tower;
   }

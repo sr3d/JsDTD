@@ -38,11 +38,16 @@ DEBUG_COLLISION = !true;
 
 <script type="text/javascript" language="javascript">
 // <![CDATA[
+  
+  var gridSize = 6;
+
   new Test.Unit.Runner({
     // optional setup function, run before each individual test case
     setup: function() { with(this) {
-      this.game = new JsDTD('canvas', { x: 10, y: 10 }); 
+      this.game = new JsDTD('canvas', { x: gridSize, y: gridSize }); 
       this.grid = this.game.grid;
+      
+      window.game = this.game;
     }},
     // optional teardown function, run after each individual test case
     teardown: function() { with(this) {
@@ -54,25 +59,33 @@ DEBUG_COLLISION = !true;
     }},
 
     "test grid rendering": function() { with(this) {
-      assertEqual( 100, $$('.grid_cell').length, 'grid should have 100 cellls ' )
+      assertEqual( gridSize * gridSize, $$('.grid_cell').length, 'grid should have 100 cellls ' )
     }}
     
-    ,"test grid rendering": function() { with(this) {
-      var tower = this.game.addTower( 10, 10, Tower.Canon );
+    ,"test grid add Canon Tower": function() { with(this) {
+      var x = 2, y = 2;
+      var tower = this.game.addTower( x, y, Tower.Canon );
       assertEqual( 1, this.game.towers.length, 'should have 1 tower'  );
-      
+
       for( var i = 0; i < this.game.x; i++ )
       {
         for( var j = 0; j < this.game.y; j++ )
         {
-          if( ( i < 10 && i > 10 + tower.size ) || ( j < 10 && j < 10 + tower.size ) )
-            assert( !this.grid.grid[i,j], 'other cells should be unoccupied' );
+          if( i < x || i >= x + tower.size || j < y || j >= y + tower.size  )
+          {
+            assert( !this.grid.grid[ i ][ j ], 'other cells should be unoccupied' );
+          }
           else
-            assert( this.grid.grid[ i, j ], 'Tower cells should be occupied' );
+          {
+            assert( this.grid.grid[ i ][ j ], 'Tower cells should be occupied' );
+          }
         }
       }
       
+      assertEqual( [x, y].toString() , [ tower.x, tower.y].toString() , 'tower should have coords matching [x,y]');
     }}
+    
+    
     
     
   }, { } );

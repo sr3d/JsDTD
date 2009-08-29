@@ -18,10 +18,10 @@ DEBUG_COLLISION = !true;
 
 <script type="text/javascript" charset="utf-8">
 Event.observe( window, 'load', function() { 
-  var game = new JsDTD('canvas'); 
+  window.game = new JsDTD('canvas'); 
   
   console.log( 'adding Tower.Canon' )
-  game.addTower( 10, 10, Tower.Canon );
+  window.game.addTower( 10, 10, Tower.Canon );
   
 } );
 
