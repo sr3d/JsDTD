@@ -25,8 +25,10 @@ var JsDTD = Class.create({
   
   ,addTower: function( x, y, tower ) {
     /* TODO: check to see if tower can be built */
-    console.log( 'adding new tower: %o', this.grid.addTower( 10, 10, tower ) );
-    //console.log( this.towers );
+    
+    var tower = this.grid.addTower( 10, 10, tower )
+    this.towers.push( tower );
+    return tower;
   }
   
   
