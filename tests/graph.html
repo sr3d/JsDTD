@@ -14,6 +14,7 @@ DEBUG_COLLISION = !true;
 <script type="text/javascript" charset="utf-8" src='../javascripts/prototype.js'></script>
 <script type="text/javascript" charset="utf-8" src='../javascripts/scriptaculous.js'></script>
 <script type="text/javascript" charset="utf-8" src='../javascripts/unittest.js'></script>
+<script type="text/javascript" charset="utf-8" src='../javascripts/utilities.js'></script>
 
 <script type="text/javascript" charset="utf-8" src='../javascripts/jsDTD.js'></script>
 <script type="text/javascript" charset="utf-8" src='../javascripts/grid.js'></script>
@@ -83,6 +84,24 @@ DEBUG_COLLISION = !true;
       assert( graph.aStar( [0,0], [4,4] ), "should return true" );
 
     }}
+    
+    ,"test_Util_PriotrityQueue": function() { with(this) {
+      var pq = new Util.PQ();
+      pq.push( "a", 1 );
+      assertEqual( 1, pq.count(), "Q should have 1 item" );
+      assertEqual( 1, pq.values.length, "Q's values array should have 1 item" );
+    
+      pq.push( "c", 3 );
+      assertEqual( 2, pq.count() );
+      
+      pq.push( "b", 2 );
+      assertEqual( 3, pq.count() );
+      
+      assertEqual( [ "a", 1 ].toString(), pq.pop() );
+      assertEqual( [ "b", 2 ].toString(), pq.pop() );
+      assertEqual( [ "c", 3 ].toString(), pq.pop() );
+      assertEqual( 0, pq.count() );
+    } }    
 
   }, { } );
   
