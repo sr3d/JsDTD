@@ -1,5 +1,21 @@
+var Sprite = Class.create();
+Sprite.prototype = {
+  initialize : function(id) {
+    this.id = id;
+  }
+  ,getX : function() { return this.node.offsetLeft; }
+  ,setX : function(x) { this.node.style.left = x + 'px';}
+  ,getY : function () { return this.node.offsetTop; }
+  ,setY : function(y) { this.node.style.top = y + 'px';}
+  ,moveBy: function(dx, dy) { this.setX(this.getX()+dx); this.setY(this.getY()+dy); }
+  ,getW : function() { return this.node.offsetWidth; }
+  ,getH : function() { return this.node.offsetHeight; }
+};
+
+
+
 var Tower = { };
-Tower.Base = Class.create( { 
+Tower.Base = Class.create( Sprite, { 
   initialize: function( type, x, y, grid, options ) {
     options = Object.extend( { 
     }, options || { } );
@@ -7,13 +23,13 @@ Tower.Base = Class.create( {
     this.x = x;
     this.y = y;
     
-    this.id = "tower_" + this.x + '_' + this.y;
-    //this.node = $(id);
-    
     this.grid = grid;
     
-    console.log( 'init Tower.Base %o', this );
+    this.id = "tower_" + this.x + '_' + this.y;
+    this.render();
+    this.node = $(this.id);
   }
+  ,render: function() { throw 'Not implemented'; }
 });
 
 Tower.Canon = Class.create( Tower.Base, {
@@ -22,8 +38,6 @@ Tower.Canon = Class.create( Tower.Base, {
     this.size = 2;
     
     $super( this.type, x, y, grid , options );
-
-    this.render();
   }
   
   ,render: function() { 
@@ -37,7 +51,6 @@ Tower.Canon = Class.create( Tower.Base, {
     var html  = "<div id='"+ this.id + "' style='left:" + coords[0] + "px;top:" + coords[1] + 
                 ";width:"+ JsDTDConfig.cellSize * this.size +   "px; height:" + JsDTDConfig.cellSize * this.size +"px'" + 
                 " class='tower canon'></div>";
-    //console.log( html );
     return html;
   }
 

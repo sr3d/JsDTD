@@ -33,7 +33,6 @@ Console.prototype = {
     },
     
     tick : function () {
-      //console.log( this.screen );
       this.screen.tick();
     }
 
@@ -51,9 +50,6 @@ Screen.prototype = {
     {
       for( var i = 0; i < objects.length; i++ )
       {
-        console.log( objects );
-        console.log( 'pushing new object' );
-        console.log( objects[i] );
         this.objects.push( objects[ i ] );
       }
     }
@@ -74,47 +70,3 @@ Screen.prototype = {
   ,registerObject: function( obj ) { this.objects.push( obj ); }
 
 }
-
-
-// Sprite ////////////////////////////////////////
-
-var Sprite = Class.create();
-Sprite.prototype = {
-    initialize : function(id) {
-        this.id = id;
-        this.node = $(id);
-    },
-    
-    getX : function() {
-        return this.node.offsetLeft;
-    },
-    
-    setX : function(x) {
-        this.node.setStyle({'left' : x + 'px'});
-    },
-
-
-    getY : function () {
-        return this.node.offsetTop;
-    },
-    
-    setY : function(y) {
-        this.node.setStyle({'top' : y + 'px'});
-    },    
-    
-
-    moveBy: function(dx, dy) {
-        this.setX(this.getX()+dx);
-        this.setY(this.getY()+dy);
-    },
-
-    getW : function() {
-        return this.node.offsetWidth;
-    },
-    
-    getH : function() {
-        return this.node.offsetHeight;
-    },
-};
-
-
