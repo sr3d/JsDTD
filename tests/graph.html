@@ -80,9 +80,10 @@ DEBUG_COLLISION = !true;
       window.graph = new Graph( this.grid.grid );
 
       //assert( graph.aStar1( 0,0, 0,0 ), "should return true if dest == src" );
+      var path = graph.aStar1( 0,0, 4,4 )
+      assert( !!path, "should return true" );
       
-      assert( graph.aStar1( 0,0, 4,4 ), "should return true" );
-
+      console.log( path );
     }}
     
     ,"test_Util_PriotrityQueue": function() { with(this) {

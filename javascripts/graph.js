@@ -1,4 +1,10 @@
-var l = console.log;
+var DEBUG = !true;
+var l = function() { 
+  if( DEBUG )
+    console.log.apply( arguments );
+};
+
+//var l = console.log;
 
 var Graph = function( graph, options ) {
     this.graph = graph;
@@ -14,74 +20,127 @@ Graph.prototype = {
     l( this.MOVE_COST );
     
     var open = new Util.PQ();
-    var closed = [];
 
-    var i = 100;
+    var DEBUG_FLAG = 100;
     
     var h = function( x1, y1, x2, y2 ) { l( arguments) ;return Math.abs( x1 - x2 ) + Math.abs( y1 - y2 ); }
-    open.push( 0, {x: startX, y: startY, parentX: null, parentY: null, cost: 0 } );
+    
+    var graphStatus = {};
+
+    var addToOpen = function( x, y, parentX, parentY, moveCost, hCost ) { 
+      var fCost = moveCost + hCost;
+      graphStatus[ x + '_' + y ] = {x: x, y: y, parentX: parentX, parentY: parentY, moveCost: moveCost, hCost: hCost };
+      open.push( fCost, {x: x, y: y, parentX: parentX, parentY: parentY } ); 
+      l( '>> Add Node to Open List:  %o %o', {x: startX, y: startY, parentX: parentX, parentY: parentY }, arguments );
+    };
+    var isInOpen = function( x, y ) { return !!graphStatus[ x + '_' + y ]; };
+    
+    var addToClosed = function( x, y ) { graphStatus[ x + '_' + y ].closed = true;};
+    var isInClosed = function( x, y ) { return graphStatus[ x + '_' + y ] && graphStatus[ x + '_' + y ].closed; };
+    
+    var extractPath = function( x, y ) { 
+      var node = graphStatus[ x + '_' + y ];
+      var path = [];
+      while( node )
+      {
+        l( node );
+        path.push( [node.x, node.y] )
+        node = graphStatus[ node.parentX + '_' + node.parentY ];
+      }
+      return path;
+    }
+    
+    /* add the starting node to open so we can examine its neighbors */
+    addToOpen( startX, startY, null, null, 0 , 0 );
     
     while( open.count() > 0 )
     {
       var temp = open.pop();
-      console.log( 'item from the PQ: %o', temp );
+      l( 'item from the PQ: %o', temp );
       var node = temp[1], cost = temp[0];
-      console.log( 'the node itself %o', node );
+      l( 'the node itself %o', node );
       if( node.x == endX && node.y == endY )
       {
-        console.log( 'arrive at dest %o',  node );
-        return true;
+        l( 'arrive at dest %o',  node );
+        return extractPath( node.x, node.y );
       }
       
-      closed[ node.x + '_' + node.y ] = node;
+      addToClosed( node.x, node.y );
       
       /* traverse the neighbor */
       for( var i = node.x - 1; i < node.x + 2; i++ )
       {
         for( var j = node.y - 1; j < node.y + 2; j++ )
         {
-          console.log( 'checking neighbor (%s, %s)', i, j );
+          l( 'checking neighbor (%s, %s)', i, j );
           /* if occupied */
           if( !this.graph[i] )
           {
-            console.log( "Undefined i -- neighbor (%s, %s) is outside the grid, not walkable", i, j );
+            l( "Undefined i -- neighbor (%s, %s) is outside the grid, not walkable", i, j );
             continue;
           }    
           
           if( j < 0 || j >= this.graph[i].length )
           {
-            console.log( "neighbor (%s, %s) is outside the grid, not walkable", i, j );
+            l( "neighbor (%s, %s) is outside the grid, not walkable", i, j );
             continue;
           } 
           
           if( i == node.x && j == node.y )
           {
-            console.log( "Current node is not walkable" , i, j );
+            l( "Current node is not walkable" , i, j );
             continue;
           }
           
           if( this.graph[i][j] )
           {
-            console.log( "Neighbor node (%s, %s) is marked Occupied and not walkable", i, j ); 
+            l( "Neighbor node (%s, %s) is marked Occupied and not walkable", i, j ); 
             continue;
           }
           
-          var moveCost = ( i != node.x && j != node.y ) ? this.X_MOVE_COST : this.MOVE_COST;
-          console.log( 'moveCost', moveCost );
+          var moveCost = cost + ( i != node.x && j != node.y ) ? this.X_MOVE_COST : this.MOVE_COST;
+          l( 'moveCost', moveCost );
           var hCost = h( i, j, endX, endY );
-          console.log( 'Heuristic of neighbord %s', hCost );
+          l( 'Heuristic of neighbord %s', hCost );
           
+          if( !isInClosed( i, j ) )
+          {
+            if( isInOpen( i, j ) )
+            {
+              /* found a cheaper path to the neighbor than before */
+              if( moveCost < graphStatus[ i + '_' + j ].moveCost )
+              {
+                l( 'Node (%s, %s) was visited, but found new cheaper path', i, j );
+                addToOpen( i, j, node.x, node.y, moveCost, hCost );
+              }
+            }
+            else
+            {
+              /* never visit, queue up the node to examine later */
+              l( 'Node (%s, %s) is never visit -- add to open list', i, j );
+              addToOpen( i, j, node.x, node.y, moveCost, hCost );
+            }
+          }
+          else
+          {
+            // in the closed set, ignore.
+            l( 'Node (%s, %s) is closed', i, j );
+          }
           
         }
       }
      
-      if( i-- < 0 ){  
-        console.log( 'exceed looping limit' );
+      if( DEBUG_FLAG-- < 0 ){  
+        l( 'exceed looping limit' );
         break ; 
       }
       
-      return false;
+      
+      l( '*************************Open List count: %s', open.count() );
+      
     }
+    
+    return false;
   }
   
   ,isWalkable: function( x, y ) { 
