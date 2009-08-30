@@ -1,104 +1,87 @@
+var l = console.log;
+
 var Graph = function( graph, options ) {
-  this.graph = graph;
-};
-Graph.prototype = { 
-  initialize: function( graph, options ){
-    
     this.graph = graph;
     this.name = 'Graph';
     
-    this.HV_COST = 10;
-    this.D_COST  = 21;
+    this.MOVE_COST = 10;
+    this.X_MOVE_COST  = 21;
+};
 
-    console.log( 'this.graph= %p', this.graph );
-    
-    console.log( this.graph );
-  }
+Graph.prototype = { 
   
-  ,aStar: function( start, end ) {
-    if( start[0] == end[0] && start[1] == end[1] ) return true;
-    var path = [];
-    var self = this;
-    // mahattan distant
-    var h = function( a, b ) { return Math.abs( a[0] - b[0] ) + Math.abs( a[1] - b[1] ) };
+  aStar1: function( startX, startY, endX, endY ) { 
+    l( this.MOVE_COST );
     
-    var openSet = new Util.SortedList( { 
-      /* comparator to use the Mahattan heuristic distance */
-      comparator: function( nodeA , nodeB ) { 
-        /*
-        var ha = h( [nodeA.x, nodeA.y], end );
-        var hb = h( [nodeB.y, nodeB.y], end );*/
-        var ha = nodeA.cost, hb = nodeB.cost
-        return ha = hb ? 0 : ha > hb ? 1 : -1; 
-      } 
-    } ) ;
-    
-
-    var closedSet = {};
-
-    openSet.push( { x: start[0], y: start[1], parentX: null, parentY: null, cost: h( start, end ) } );
-
-    var walkable = function( x, y ) { return !!self.graph[x] && !self.graph[x][y]; }
-    
-    var addNode = function( x, y, parentX, parentY ) {
-      if( !walkable( x,y ) ) return;
-      if( !closedSet[ x + "_" + y ] )
-      {
-        var cost = 
-        openSet.push( { x: x , y: y, parentX: node.x, parentY: node.y, cost: h( [x,y], end ) }  ) ;
-        closedSet[ x + "_" + y ] = true;
-      }
-    };
+    var open = new Util.PQ();
+    var closed = [];
 
     var i = 100;
-
-    while( openSet.count() > 0 )
+    
+    var h = function( x1, y1, x2, y2 ) { l( arguments) ;return Math.abs( x1 - x2 ) + Math.abs( y1 - y2 ); }
+    open.push( 0, {x: startX, y: startY, parentX: null, parentY: null, cost: 0 } );
+    
+    while( open.count() > 0 )
     {
-      var node = openSet.pop();
-      closedSet[ node.x + '_' + y ] = node;
-      //var cost = 
-
-      /*
-      addNode( node.x + 1, node.y,        node.x, node.y );
-      addNode( node.x    , node.y + 1,    node.x, node.y );
-      addNode( node.x - 1, node.y,        node.x, node.y );
-      addNode( node.x    , node.y - 1,    node.x, node.y );
-      */
-      // just incase ...
+      var temp = open.pop();
+      console.log( 'item from the PQ: %o', temp );
+      var node = temp[1], cost = temp[0];
+      console.log( 'the node itself %o', node );
+      if( node.x == endX && node.y == endY )
+      {
+        console.log( 'arrive at dest %o',  node );
+        return true;
+      }
+      
+      closed[ node.x + '_' + node.y ] = node;
+      
+      /* traverse the neighbor */
+      for( var i = node.x - 1; i < node.x + 2; i++ )
+      {
+        for( var j = node.y - 1; j < node.y + 2; j++ )
+        {
+          console.log( 'checking neighbor (%s, %s)', i, j );
+          /* if occupied */
+          if( !this.graph[i] )
+          {
+            console.log( "Undefined i -- neighbor (%s, %s) is outside the grid, not walkable", i, j );
+            continue;
+          }    
+          
+          if( j < 0 || j >= this.graph[i].length )
+          {
+            console.log( "neighbor (%s, %s) is outside the grid, not walkable", i, j );
+            continue;
+          } 
+          
+          if( i == node.x && j == node.y )
+          {
+            console.log( "Current node is not walkable" , i, j );
+            continue;
+          }
+          
+          if( this.graph[i][j] )
+          {
+            console.log( "Neighbor node (%s, %s) is marked Occupied and not walkable", i, j ); 
+            continue;
+          }
+          
+          var moveCost = ( i != node.x && j != node.y ) ? this.X_MOVE_COST : this.MOVE_COST;
+          console.log( 'moveCost', moveCost );
+          var hCost = h( i, j, endX, endY );
+          console.log( 'Heuristic of neighbord %s', hCost );
+          
+          
+        }
+      }
+     
       if( i-- < 0 ){  
         console.log( 'exceed looping limit' );
         break ; 
       }
-    }
-    
-    return false;
-    /*
-      OPEN = priority queue containing START
-      CLOSED = empty set
-      while lowest rank in OPEN is not the GOAL:
-        current = remove lowest rank item from OPEN
-        add current to CLOSED
-        for neighbors of current:
-          cost = g(current) + movementcost(current, neighbor)
-          if neighbor in OPEN and cost less than g(neighbor):
-            remove neighbor from OPEN, because new path is better
-          if neighbor in CLOSED and cost less than g(neighbor): **
-            remove neighbor from CLOSED
-          if neighbor not in OPEN and neighbor not in CLOSED:
-            set g(neighbor) to cost
-            add neighbor to OPEN
-            set priority queue rank to g(neighbor) + h(neighbor)
-            set neighbor's parent to current
       
-      reconstruct reverse path from goal to start
-      by following parent pointers
-    */
-
-  }
-  
-  ,aStar1: function( startX, startY, endX, endY ) { 
-    
-    
+      return false;
+    }
   }
   
   ,isWalkable: function( x, y ) { 

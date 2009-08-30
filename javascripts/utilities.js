@@ -8,7 +8,7 @@ initialize: function( options ) {
 		this.values = [];
 	}
 	
-	,push: function( item, value ) {
+	,push: function( value, item ) {
 		/* return the item and its index */
 		if( this.collection.length == 0 ) 
 		{
@@ -58,7 +58,7 @@ initialize: function( options ) {
 	
 	,removeByIndex: function( i ) { 
 		if( i > this.count() || i < 0 ) { return null; }
-		return [ this.collection.splice( i, 1 )[0], this.values.splice( i, 1 )[0] ];
+		return [ this.values.splice( i, 1 )[0], this.collection.splice( i, 1 )[0] ];
 	}
   
 	,count: function() { return this.collection.length; }	

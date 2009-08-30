@@ -79,27 +79,27 @@ DEBUG_COLLISION = !true;
     "test_find_path": function() { with(this) {
       window.graph = new Graph( this.grid.grid );
 
-      //assert( graph.aStar( [0,0], [0,0] ), "should return true if dest == src" );
+      //assert( graph.aStar1( 0,0, 0,0 ), "should return true if dest == src" );
       
-      assert( graph.aStar( [0,0], [4,4] ), "should return true" );
+      assert( graph.aStar1( 0,0, 4,4 ), "should return true" );
 
     }}
     
     ,"test_Util_PriotrityQueue": function() { with(this) {
       var pq = new Util.PQ();
-      pq.push( "a", 1 );
+      pq.push( 1, "a" );
       assertEqual( 1, pq.count(), "Q should have 1 item" );
       assertEqual( 1, pq.values.length, "Q's values array should have 1 item" );
     
-      pq.push( "c", 3 );
+      pq.push( 3, "c" );
       assertEqual( 2, pq.count() );
       
-      pq.push( "b", 2 );
+      pq.push( 2, "b" );
       assertEqual( 3, pq.count() );
       
-      assertEqual( [ "a", 1 ].toString(), pq.pop() );
-      assertEqual( [ "b", 2 ].toString(), pq.pop() );
-      assertEqual( [ "c", 3 ].toString(), pq.pop() );
+      assertEqual( [ 1 ,"a" ].toString(), pq.pop() );
+      assertEqual( [ 2 ,"b" ].toString(), pq.pop() );
+      assertEqual( [ 3 ,"c" ].toString(), pq.pop() );
       assertEqual( 0, pq.count() );
     } }    
 
