@@ -1,7 +1,7 @@
 
 /* Shorted List */
 var Util = {};
-
+/* priority key-value Queue */
 Util.PQ = Class.create( { 
 initialize: function( options ) {
 		this.collection = [];

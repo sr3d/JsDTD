@@ -46,7 +46,10 @@ Graph.prototype = {
       while( node )
       {
         l( node );
-        path.push( [node.x, node.y] )
+        if( path.length == 0 ) 
+          path.push( [node.x, node.y] );
+        else
+          path.splice( 0, 0, [node.x, node.y] );
         node = graphStatus[ node.parentX + '_' + node.parentY ];
       }
       return path;
@@ -149,14 +152,5 @@ Graph.prototype = {
     
     return false;
   }
-  
-  ,isWalkable: function( x, y ) { 
-    return this.grid.isWalkable( x, y );
-  }
-  
-  
+
 };
-
-
-var Node = function( x, y) { this.x = x; this.y = y; };
-
