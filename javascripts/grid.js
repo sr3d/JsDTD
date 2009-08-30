@@ -19,6 +19,8 @@ var Grid = Class.create( {
     this.resetGrid();
     
     this.render();
+    
+    this.graph    = new Graph( this.grid );
   }
   
   /* init the internal 2D array */
@@ -47,8 +49,25 @@ var Grid = Class.create( {
     return tower;
   }
   
+  ,addCreep: function( x, y, creepType ) { 
+    var creep = new creepType( this );
+    creep.setPath( this.calculatePath() );
+    console.log( 'Adding new creep: %o', creep );
+    
+    return creep;
+  }
+  
+  ,calculatePath: function() { 
+    //window.DEBUG = true;
+    console.log( this.graph );
+    var path = this.graph.aStar( 0, Math.floor( (this.y - 5 ) / 2 ), ( this.x - 1 ), Math.floor( this.y /2 ) );
+    console.log( path );
+    //window.DEBUG = false;
+    return path;
+  }
   
   ,getContainer: function() { return this.node; }
+  ,getTowersContainer: function() { return $('towers'); }
   ,getUnitsContainer: function() { return $('units'); }
   
   ,render: function() { 

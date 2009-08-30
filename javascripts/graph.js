@@ -20,10 +20,11 @@ var Graph = function( graph, options ) {
 Graph.prototype = { 
   
   aStar: function( startX, startY, endX, endY ) { 
+    var startTime = new Date();
     
     var open = new Util.PQ();
 
-    var DEBUG_FLAG = 100;
+    var DEBUG_FLAG = 1000;
     
     var h = function( x1, y1, x2, y2 ) { l( arguments) ;return Math.abs( x1 - x2 ) + Math.abs( y1 - y2 ); }
     
@@ -64,9 +65,11 @@ Graph.prototype = {
       l( 'item from the PQ: %o', temp );
       var node = temp[1], cost = temp[0];
       l( 'the node itself %o', node );
+      
+      /* Found the destination */
       if( node.x == endX && node.y == endY )
       {
-        l( 'arrive at dest %o',  node );
+        console.log( 'arrive at dest %o after %s iterations, taking %s ms',  node, DEBUG_FLAG, ( new Date() - startTime ) );
         return extractPath( node.x, node.y );
       }
       
@@ -142,10 +145,9 @@ Graph.prototype = {
       }
      
       if( DEBUG_FLAG-- < 0 ){  
-        l( 'exceed looping limit' );
-        break ; 
+      //  console.log( 'exceed looping limit' );
+      //  break ; 
       }
-      
       
       l( '*************************Open List count: %s', open.count() );
     }

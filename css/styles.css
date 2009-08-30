@@ -1,0 +1,19 @@
+body { font-family: arial; }
+#canvas
+{ border: 10px solid #DFDFDF; width: 520px; height: 520px; position: relative; margin: 0 auto; }
+
+.grid_cell
+{ border: 1px solid #EFEFEF; position: absolute;}    
+  .highlight
+  { background-color: #FFDFDF; }
+
+#score
+{ font-size: 40px; position: absolute; right: 0px; top: 0px; }
+
+
+.tower { background-color: #DFDFDF; border: 1px solid #3F73FF; position: absolute; }
+
+.creep
+{ position: absolute; width: 20px; height: 20px; }
+.soot
+{ background: url('../images/soot.png') no-repeat top left; }

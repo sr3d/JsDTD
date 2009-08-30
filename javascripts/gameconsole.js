@@ -1,72 +1,55 @@
-// game console  ( from javascriptgamer.com )
-//
-// requires: prototype.js (tested with v. 1.4.0)
-
-// Console ///////////////////////////////////////
-
-Console = Class.create();
+var Console = Class.create();
 Console.prototype = {
-
-    initialize : function (startScreen, tickSpeed) {
-        this.tickSpeed = tickSpeed || 25; // milliseconds between ticks
-        this.screen = startScreen;
-    },
+  initialize : function ( screen, options ) {
+    options = Object.extend( { 
+      tickSpeed:   25
+    } , options || { } );
     
-    start : function() {
-        _con = this;
-        window.setInterval(function () { _con.tick() }, this.tickSpeed);
-        document.onkeydown = function (e) { _con.keyDown(e) };
-        document.onkeyup = function (e) { _con.keyUp(e) };
-        document.onkeypress = function (e) { _con.keyPress(e) };
-    },
-
-    keyDown : function(e) {
-        this.screen.keyDown(e);
-    },
+    this.tickSpeed  = options.tickSpeed;
+    this.screen     = screen;
+    this.counter    = 0;
     
-    keyUp : function(e) {
-        this.screen.keyUp(e);
-    },
-
-    keyPress : function(e) {
-        this.screen.keyPress(e);
-    },
-    
-    tick : function () {
-      this.screen.tick();
-    }
-
-}
-
-// Screen ////////////////////////////////////////
-
-Screen = Class.create();
-Screen.prototype = {
-  initialize : function (id, objects) {
-    this.id = id;
-    this.objects = [];
-    
-    if( objects )
-    {
-      for( var i = 0; i < objects.length; i++ )
-      {
-        this.objects.push( objects[ i ] );
-      }
-    }
-  },
-  
-  keyDown : function (e) {
-  },
-  
-  keyUp : function(e) {
-  },
-  
-  keyPress : function(e) {
-  },
-  
-  tick : function () {
+    this.MAX_TICK   = 100;
   }
   
-  ,registerObject: function( obj ) { this.objects.push( obj ); }
+  ,start: function() {
+    console.log( 'starting...');
+    var self = this;
+    this.interval = window.setInterval( function () { self.tick() }, this.tickSpeed );
+    document.onkeydown  = function (e) { self.keyDown(e); return !false; };
+    document.onkeyup    = function (e) { self.keyUp(e); return !false; };
+    document.onkeypress = function (e) { self.keyPress(e); return !false; };
+    
+    return this;
+  }
+  
+  ,stop: function() { 
+    clearInterval( this.interval );
+    this.interval = null;
+    return this;
+  }
 
-}
+  ,keyDown : function(e) {
+    this.screen.keyDown(e);
+  }
+  
+  ,keyUp : function(e) {
+    this.screen.keyUp(e);
+  }
+
+  ,keyPress : function(e) {
+    this.screen.keyPress(e);
+  }
+  
+  ,tick : function () {
+    this.counter++;
+    if( this.counter > this.MAX_TICK )
+    {
+      this.stop();
+      return
+    } 
+    
+    this.screen.tick();
+  }
+  
+};

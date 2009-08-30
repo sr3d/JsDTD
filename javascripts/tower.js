@@ -41,7 +41,7 @@ Tower.Canon = Class.create( Tower.Base, {
   }
   
   ,render: function() { 
-    ( this.grid.getUnitsContainer() ).insert( { bottom: this.html() } );
+    ( this.grid.getTowersContainer() ).insert( { bottom: this.html() } );
     this.node = $(this.id);
   }
   
@@ -52,6 +52,10 @@ Tower.Canon = Class.create( Tower.Base, {
                 ";width:"+ JsDTDConfig.cellSize * this.size +   "px; height:" + JsDTDConfig.cellSize * this.size +"px'" + 
                 " class='tower canon'></div>";
     return html;
+  }
+  
+  ,tick: function() { 
+    //console.log( 'ticking - Canon %i', this.id );
   }
 
 } );
