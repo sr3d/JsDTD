@@ -37,9 +37,8 @@ var Grid = Class.create( {
   
   /* add a new Tower to the grid at a coordinates */
   ,addTower: function( x, y, tower ){
-    console.log( "x:%s, y: %s ", x, y );
     var tower = new tower( x, y, this );
-    console.info( tower );
+    
      /* mark the cell as occupied */
     for( var i = 0; i < tower.size; i++ )
       for( j = 0; j < tower.size; j++ )
@@ -70,6 +69,10 @@ var Grid = Class.create( {
   
   ,xyToLeftTop: function( x, y ) {
     return [ x * this.cellSize, y * this.cellSize ];
+  }
+  
+  ,isWalkable: function( x, y ) { 
+    return x >= 0 && x < this.grid.length && !this.grid[x][y]; 
   }
   
 } )

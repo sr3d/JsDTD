@@ -18,7 +18,8 @@ DEBUG_COLLISION = !true;
 <script type="text/javascript" charset="utf-8" src='../javascripts/jsDTD.js'></script>
 <script type="text/javascript" charset="utf-8" src='../javascripts/grid.js'></script>
 <script type="text/javascript" charset="utf-8" src='../javascripts/tower.js'></script>
-  
+<script type="text/javascript" charset="utf-8" src='../javascripts/graph.js'></script>  
+
 <link rel="stylesheet" href="../css/test.css" type="text/css" />
 
 </head>
@@ -41,14 +42,30 @@ DEBUG_COLLISION = !true;
   
   var gridSize = 6;
 
+  var GridMock = Class.create( Grid, {
+    render: Prototype.emptyFunction 
+  } )  
+
   new Test.Unit.Runner({
     // optional setup function, run before each individual test case
     setup: function() { with(this) {
-      this.game = new JsDTD('canvas', { x: gridSize, y: gridSize }); 
-      this.grid = this.game.grid;
+      var x = 5;
+      var y = 5;      
       
-      window.game = this.game;
+      this.grid = new GridMock( '', { x: x, y: y } );
+      window.grid = this.grid;
+      
+      
+      /*
+      for( var i = 0; i < x; i++ )
+      {
+        this.grid[i] = [];
+        for( var j = 0; j < y; j++ )
+          this.grid[i][j] = false;
+      }
+      */
     }},
+    
     // optional teardown function, run after each individual test case
     teardown: function() { with(this) {
       $('units').innerHTML = '';
@@ -58,42 +75,18 @@ DEBUG_COLLISION = !true;
       
     }},
 
-    "test grid rendering": function() { with(this) {
-      assertEqual( gridSize * gridSize, $$('.grid_cell').length, 'grid should have 100 cellls ' )
-    }}
-    
-    ,"test grid add Canon Tower": function() { with(this) {
-      var x = 2, y = 2;
-      var tower = this.game.addTower( x, y, Tower.Canon );
-      assertEqual( 1, this.game.towers.length, 'should have 1 tower'  );
+    "test_find_path": function() { with(this) {
+      window.graph = new Graph( this.grid.grid );
 
-      for( var i = 0; i < this.game.x; i++ )
-      {
-        for( var j = 0; j < this.game.y; j++ )
-        {
-          if( i < x || i >= x + tower.size || j < y || j >= y + tower.size  )
-          {
-            assert( !this.grid.grid[ i ][ j ], 'other cells should be unoccupied' );
-            assert( this.grid.isWalkable( i, j) );
-          }
-          else
-          {
-            assert( this.grid.grid[ i ][ j ], 'Tower cells should be occupied' );
-            assert( !this.grid.isWalkable( i, j ) );
-          }
-        }
-      }
+      //assert( graph.aStar( [0,0], [0,0] ), "should return true if dest == src" );
       
-      assertEqual( [x, y].toString() , [ tower.x, tower.y].toString() , 'tower should have coords matching [x,y]');
+      assert( graph.aStar( [0,0], [4,4] ), "should return true" );
+
     }}
-    
-    
-    
-    
+
   }, { } );
   
   </script>
-
 </body>
 
 </html>
