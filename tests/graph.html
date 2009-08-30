@@ -45,7 +45,9 @@ DEBUG_COLLISION = !true;
 
   var GridMock = Class.create( Grid, {
     render: Prototype.emptyFunction 
-  } )  
+  } );
+  
+  window.DEBUG = false;
 
   new Test.Unit.Runner({
     // optional setup function, run before each individual test case
@@ -56,15 +58,6 @@ DEBUG_COLLISION = !true;
       this.grid = new GridMock( '', { x: x, y: y } );
       window.grid = this.grid;
       
-      
-      /*
-      for( var i = 0; i < x; i++ )
-      {
-        this.grid[i] = [];
-        for( var j = 0; j < y; j++ )
-          this.grid[i][j] = false;
-      }
-      */
     }},
     
     // optional teardown function, run after each individual test case
@@ -74,17 +67,63 @@ DEBUG_COLLISION = !true;
       
       delete this.game;
       
-    }},
-
-    "test_find_path": function() { with(this) {
-      window.graph = new Graph( this.grid.grid );
-
-      //assert( graph.aStar1( 0,0, 0,0 ), "should return true if dest == src" );
-      var path = graph.aStar1( 0,0, 4,4 )
-      assert( !!path, "should return true" );
-      
-      console.log( path );
     }}
+    
+    ,"test_find_path_start_end_point_are_the_same": function() { with(this) {
+      var graph = new Graph( this.grid.grid );
+      var path = graph.aStar( 1,1, 1,1 )
+      assertEqual(true, !!path, "should find a path" );
+      assertEqual( 1, path.length );
+      assertEqual( [1,1].toString(), path[0].toString() );
+      
+    }}    
+
+    ,"test_find_path": function() { with(this) {
+      var graph = new Graph( this.grid.grid );
+      window.DEBUG = !true;
+      var path = graph.aStar( 0,0, 4,4 )
+      assert( !!path, "should find a path" );
+    }}
+    
+    ,"test_no_path": function() { with(this) {
+      /* block the path in the middle.*/
+      for( var i = 0; i < this.grid.grid[0].length; i++ )
+      {
+        this.grid.grid[ 2 ][ i ] = true;
+      }
+      
+      window.DEBUG = !true;
+      
+      var graph = new Graph( this.grid.grid );
+      var path = graph.aStar( 0,0, 4,4 );
+      assertEqual( false, !!path, "Path shouldn't exists" );
+      
+
+      path = graph.aStar( 0, 1, 0, 3 );
+      assertEqual( true, !!path, "Path should exist for points on the same side" );
+
+    }}
+    
+    ,"test_/_cross_graph_no_path": function() { with(this) {
+      /* Check another case of blocking path */
+      this.grid = new GridMock( '', { x: 5, y: 5 } );
+      for( var i = 0; i < this.grid.grid[0].length; i++ )
+      {
+        this.grid.grid[ i ][ i ] = true;
+      }
+      
+      console.log( this.grid.grid );
+      var graph = new Graph( this.grid.grid ); 
+      path = null;
+      
+      window.DEBUG = true;
+      path = graph.aStar( 0, 4, 4, 0 );
+      
+      console.log( path );      
+      assertEqual( false, !!path, "Path shouldn't exists" );
+      
+    }}
+    
     
     ,"test_Util_PriotrityQueue": function() { with(this) {
       var pq = new Util.PQ();

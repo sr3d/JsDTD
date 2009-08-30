@@ -1,7 +1,9 @@
-var DEBUG = !true;
-var l = function() { 
-  if( DEBUG )
-    console.log.apply( arguments );
+if( typeof DEBUG == 'undefined') var DEBUG = !true;
+
+var l = function() {
+  //console.log( arguments ); 
+  if( window.DEBUG )
+    console.log.apply( this, arguments );
 };
 
 //var l = console.log;
@@ -10,14 +12,14 @@ var Graph = function( graph, options ) {
     this.graph = graph;
     this.name = 'Graph';
     
-    this.MOVE_COST = 10;
-    this.X_MOVE_COST  = 21;
+    this.MOVE_COST      = 10;
+    this.X_MOVE_COST    = 21;
+    this.ALLOW_X_MOVE   = false;  // no diagnal movement
 };
 
 Graph.prototype = { 
   
-  aStar1: function( startX, startY, endX, endY ) { 
-    l( this.MOVE_COST );
+  aStar: function( startX, startY, endX, endY ) { 
     
     var open = new Util.PQ();
 
@@ -68,9 +70,9 @@ Graph.prototype = {
       addToClosed( node.x, node.y );
       
       /* traverse the neighbor */
-      for( var i = node.x - 1; i < node.x + 2; i++ )
+      for( var i = node.x - 1; i <= node.x + 1; i++ )
       {
-        for( var j = node.y - 1; j < node.y + 2; j++ )
+        for( var j = node.y - 1; j <= node.y + 1; j++ )
         {
           l( 'checking neighbor (%s, %s)', i, j );
           /* if occupied */
@@ -95,6 +97,12 @@ Graph.prototype = {
           if( this.graph[i][j] )
           {
             l( "Neighbor node (%s, %s) is marked Occupied and not walkable", i, j ); 
+            continue;
+          }
+          
+          if( !this.ALLOW_X_MOVE && i != node.x && j != node.y )
+          {
+            l( "Neighbor node (%s, %s) is diagnal and not walkable", i, j ); 
             continue;
           }
           
@@ -137,7 +145,6 @@ Graph.prototype = {
       
       
       l( '*************************Open List count: %s', open.count() );
-      
     }
     
     return false;
