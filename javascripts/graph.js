@@ -154,5 +154,49 @@ Graph.prototype = {
     
     return false;
   }
+  
+  /* combine horizontal and vertical path into begin and enpoint */
+  ,simplifyPath: function( path ) { 
+    var newPath = [];
+    var start = -1, end = -1;
+    while( start < path.length - 1 )
+    {
+      if( path[ start + 1 ] && path[ start ][0] != path[ start + 1 ][0] )
+      {
+        console.log( 'skipping' );
+        console.log( 'nothing matches, add to list ' );
+        newPath.push( path[ start++ ] );
+        continue;
+      } 
+      else if( path[ start + 1] && path[ start ][0] == path[ start + 1 ][0] )
+      {
+        end = start + 1;
+        while( path[ end+1 ] && path[ end ][0] == path[end + 1][0] )
+        {
+          end++;
+          console.log( 'advanced to next point %s', end );
+        }
+        
+        if( end - start >= 2 )
+        {
+          console.log( 'reduceble' );
+          console.log( end );
+          newPath.push( [ path[ start ][ 0 ], path[ start ][ 1 ] ],  [ path[ end ][ 0 ], path[ end ][ 1 ] ] );
+          start = end;
+        }
+        
+      }
+
+      //else if( start < path.length )
+      //{
+      //  console.log( 'Nothing match.  Move on %s', start );
+      //  newPath.push( path[ start ] );
+      //  start++;
+      //}
+    }
+    
+    
+    return newPath.length > 0 ? newPath : path;
+  }
 
 };

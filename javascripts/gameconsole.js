@@ -9,7 +9,7 @@ Console.prototype = {
     this.screen     = screen;
     this.counter    = 0;
     
-    this.MAX_TICK   = 100;
+    this.MAX_TICK   = 1000;
   }
   
   ,start: function() {
@@ -43,8 +43,10 @@ Console.prototype = {
   
   ,tick : function () {
     this.counter++;
+    
     if( this.counter > this.MAX_TICK )
     {
+      console.log( 'MAX_TICK reached - stopping...' );
       this.stop();
       return
     } 

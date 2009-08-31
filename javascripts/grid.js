@@ -80,6 +80,11 @@ var Grid = Class.create( {
       }
     }
     this.node.innerHTML = html.join( ' ' );
+    $$('.grid_cell').each( function(item) { 
+      Event.observe( item, 'mouseover', function() { 
+        sl.log('MouseOver:',this.id  );
+      } );
+    } );
   }
   
   ,cellHtml: function( x, y) { 
@@ -88,6 +93,10 @@ var Grid = Class.create( {
   
   ,xyToLeftTop: function( x, y ) {
     return [ x * this.cellSize, y * this.cellSize ];
+  }
+  
+  ,topLeftToXY: function ( left, top ) { 
+    return Math.floor( )
   }
   
   ,isWalkable: function( x, y ) { 

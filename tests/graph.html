@@ -81,8 +81,7 @@ DEBUG_COLLISION = !true;
     ,"test_find_path": function() { with(this) {
       var graph = new Graph( this.grid.grid );
       window.DEBUG = !true;
-      var path = graph.aStar( 0,0, 4,4 );
-      console.log( path );      
+      var path = graph.aStar( 0,0, 4,4 );    
       assert( !!path, "should find a path" );
     }}
     
@@ -148,6 +147,25 @@ DEBUG_COLLISION = !true;
       assertEqual( 7, path.length, 'path should avoid the middle blockade to go around' );
     }}
     
+    ,"test_simplify_straight_path": function() { with(this) {
+      var graph = new Graph( this.grid.grid ); 
+      
+      /* horizontal */
+      var path = [ [0,1], [0, 2], [0, 3], [0,4] ]
+      var newPath = graph.simplifyPath( path );
+      assertEqual( 2, newPath.length, 'new path should have 2 points' );
+      assertEqual( [ [0,1], [ 0, 4] ].toString(), newPath.toString() );
+      
+      console.log( newPath );
+      
+      
+      var path = [ [0,1], [0, 2], [0, 3], [1,4] ]
+      var newPath = graph.simplifyPath( path );
+      assertEqual( 3, newPath.length, 'new path should have 3 points' );
+      assertEqual( [ [0,1], [ 0, 3], [1,4] ].toString(), newPath.toString() );      
+      
+    } }    
+    
     ,"test_Util_PriotrityQueue": function() { with(this) {
       var pq = new Util.PQ();
       pq.push( 1, "a" );
@@ -164,7 +182,9 @@ DEBUG_COLLISION = !true;
       assertEqual( [ 2 ,"b" ].toString(), pq.pop() );
       assertEqual( [ 3 ,"c" ].toString(), pq.pop() );
       assertEqual( 0, pq.count() );
-    } }    
+    } }
+    
+  
 
   }, { } );
   

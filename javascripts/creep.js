@@ -1,7 +1,7 @@
 var Soot = Class.create( Sprite, { 
   initialize: function( $super, grid, x, y ) { 
     this.id       = 'soot_' + JsDTDConfig.nextInt() ;
-    this.speed    = 5;
+    this.speed    = 1;
     this.friction = 0.5;
     this.velocity = 0;
     this.type     = 'soot';
@@ -23,17 +23,43 @@ var Soot = Class.create( Sprite, {
 
   ,updateBoundingBox: function() { 
 		//this.bb.setPos( this.x, this.y );
-	}	
+	}
+	
+	,getSpeed: function() { return this.speed - this.friction; }
 
   ,tick : function() {
-    // TODO:  follow the path 
-    //this.setY( this.y );
-		//this.updateBoundingBox();
+    if( this.wayPoint > this.path.length )
+      return;
+    var nextCoords = this.grid.xyToLeftTop( this.path[ this.wayPoint ][0], this.path[ this.wayPoint ][1]  );
+
+    /* todo: cache the next delta to move */
+    if( this.getX() < nextCoords[0] )
+    {
+      var xDelta = Math.abs( nextCoords[0] - this.getX() ) > this.getSpeed() ? 
+                    ( nextCoords[0] > this.getX() ? 1 : -1 ) * this.getSpeed() : 
+                    nextCoords[0] - this.getX();
+      this.setX( this.getX() + xDelta );
+    }
+    
+    if( this.getY() < nextCoords[1] )
+    {
+      var yDelta = Math.abs( nextCoords[1] - this.getY() ) > this.getSpeed() ? 
+                    ( nextCoords[1] > this.getY() ? 1 : -1 ) * this.getSpeed() : 
+                    nextCoords[1] - this.getY();
+      this.setY( this.getY() + yDelta );
+    }
+    
+    /* arrive at the targetted cell, bump it to next */
+    if( this.getX() == nextCoords[0] && this.getY() == nextCoords[1] )
+    {
+      this.wayPoint++;
+      console.log( 'bump to next waypoint %s %o', this.wayPoint, this.path[ this.wayPoint ] );
+    }
   }
+    
  
 	,reset: function() { 
-		//this.x = 0;
-		this.resetCoefficents();
+	
 	}
 	
 	,render: function() { 
@@ -65,5 +91,7 @@ var Soot = Class.create( Sprite, {
     var coords = this.grid.xyToLeftTop( this.path[0][0], this.path[0][1] );
     this.node.style.left = coords[0] + 'px';
     this.node.style.top  = coords[1] + 'px';
+    
+    this.wayPoint = 1;
   }
 } );
