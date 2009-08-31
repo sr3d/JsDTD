@@ -44,15 +44,36 @@ var JsDTD = Class.create( Console, {
     return tower;
   }
   
-  ,addCreep: function( creepType ) {
-    var creep = this.grid.addCreep( 0, 0, creepType );
+  ,addCreep: function( x, y, creepType ) {
+    var creep = this.grid.addCreep( x, y, creepType );
     this.creeps.push( creep );
     this.screen.registerObject( creep );
   }
   
+  ,addCreeps: function() { 
+    var maxCreeps = 5;
+    var self = this;
+    for( var i = 0; i < maxCreeps; i++  )
+    {
+      var x = Math.floor( Math.random() * this.x );
+      var y = Math.floor( Math.random() * this.y );
+      //console.log( x, y );
+      
+      //setTimeout( function() { self.addCreep( x , y, Soot ) }, 1000 );
+    }
+    
+  }
+  
   ,start: function( $super ) {
-    this.addCreep( Soot );
+    //this.addCreep( Soot );
+    //this.addCreeps();
     $super();
+    
+    var self = this;
+    setTimeout( function() { self.addCreep( 0 , 0, Soot ) }, 1000 );    
+    setTimeout( function() { self.addCreep( 0 , 0, Soot ) }, 3000 );    
+    setTimeout( function() { self.addCreep( 0 , 0, Soot ) }, 5000 );    
+    
   }
     
 } );

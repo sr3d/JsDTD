@@ -184,7 +184,6 @@ Graph.prototype = {
           newPath.push( [ path[ start ][ 0 ], path[ start ][ 1 ] ],  [ path[ end ][ 0 ], path[ end ][ 1 ] ] );
           start = end;
         }
-        
       }
 
       //else if( start < path.length )
