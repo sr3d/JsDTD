@@ -13,7 +13,6 @@ Console.prototype = {
   }
   
   ,start: function() {
-    console.log( 'starting...');
     var self = this;
     this.interval = window.setInterval( function () { self.tick() }, this.tickSpeed );
     document.onkeydown  = function (e) { self.keyDown(e); return !false; };
@@ -44,6 +43,7 @@ Console.prototype = {
   ,tick : function () {
     this.counter++;
     
+    window.sl.log('Current Game Tick', this.counter );
     if( this.counter > this.MAX_TICK )
     {
       console.log( 'MAX_TICK reached - stopping...' );

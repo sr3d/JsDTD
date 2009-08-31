@@ -1,8 +1,8 @@
 var Soot = Class.create( Sprite, { 
   initialize: function( $super, grid, x, y ) { 
     this.id       = 'soot_' + JsDTDConfig.nextInt() ;
-    this.speed    = 1;
-    this.friction = 0.5;
+    this.speed    = 3;
+    this.friction = 1;
     this.velocity = 0;
     this.type     = 'soot';
 
@@ -28,35 +28,44 @@ var Soot = Class.create( Sprite, {
 	,getSpeed: function() { return this.speed - this.friction; }
 
   ,tick : function() {
-    if( this.wayPoint > this.path.length )
+    if( this.wayPoint >= this.path.length )
       return;
-    var nextCoords = this.grid.xyToLeftTop( this.path[ this.wayPoint ][0], this.path[ this.wayPoint ][1]  );
+      
+    var nextCoords = this._getNextCoords();
 
     /* todo: cache the next delta to move */
-    if( this.getX() < nextCoords[0] )
+    if( this.getX() != nextCoords[0] )
     {
-      var xDelta = Math.abs( nextCoords[0] - this.getX() ) > this.getSpeed() ? 
+      var dx = Math.abs( nextCoords[0] - this.getX() ) > this.getSpeed() ? 
                     ( nextCoords[0] > this.getX() ? 1 : -1 ) * this.getSpeed() : 
                     nextCoords[0] - this.getX();
-      this.setX( this.getX() + xDelta );
+      this.setX( this.getX() + dx );
     }
     
-    if( this.getY() < nextCoords[1] )
+    if( this.getY() != nextCoords[1] )
     {
-      var yDelta = Math.abs( nextCoords[1] - this.getY() ) > this.getSpeed() ? 
-                    ( nextCoords[1] > this.getY() ? 1 : -1 ) * this.getSpeed() : 
-                    nextCoords[1] - this.getY();
-      this.setY( this.getY() + yDelta );
+      var dy = Math.abs( nextCoords[1] - this.getY() ) <=  this.getSpeed() ? 
+                    nextCoords[1] - this.getY() :              
+                    ( nextCoords[1] > this.getY() ? 1 : -1 ) * this.getSpeed();
+      this.setY( this.getY() + dy );
     }
     
     /* arrive at the targetted cell, bump it to next */
     if( this.getX() == nextCoords[0] && this.getY() == nextCoords[1] )
     {
       this.wayPoint++;
-      console.log( 'bump to next waypoint %s %o', this.wayPoint, this.path[ this.wayPoint ] );
+      this._nextCoords = null;
+      
+      //console.log( 'bump to next waypoint %s %o', this.wayPoint, this.path[ this.wayPoint ] );
+      //sl.log( 'Next Coords:', this.path[ this.wayPoint ].toString() );
     }
   }
-    
+  
+  ,_getNextCoords: function() { 
+    if( this._nextCoords ) return this._nextCoords;
+    this._nextCoords = this.grid.xyToLeftTop( this.path[ this.wayPoint ][0], this.path[ this.wayPoint ][1]  );
+    return this._nextCoords;
+  }
  
 	,reset: function() { 
 	
@@ -82,16 +91,14 @@ var Soot = Class.create( Sprite, {
 	,highlightPath: function() {
     for( var i = 0; i < this.path.length; i++ )
     {
-      //console.log( 'highlight (%s, %s)', this.path[i][0], this.path[i][1] );
       $( this.path[i][0] + "_" + this.path[i][1] ).addClassName( 'highlight' );
     }
 	}
 
   ,resetPosition: function() { 
-    var coords = this.grid.xyToLeftTop( this.path[0][0], this.path[0][1] );
+    this.wayPoint = 0;
+    var coords = this.grid.xyToLeftTop( this.path[ this.wayPoint ][0], this.path[ this.wayPoint ][1] );
     this.node.style.left = coords[0] + 'px';
     this.node.style.top  = coords[1] + 'px';
-    
-    this.wayPoint = 1;
   }
 } );
