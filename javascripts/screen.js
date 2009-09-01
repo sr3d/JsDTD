@@ -27,15 +27,15 @@ Screen.JsDTD = Class.create( Screen.Base, {
   }
 
   ,tick: function() { 
-    //console.log( 'screen ticking...' );
+    /* Movement and firing */
     var i = this.objects.length;
     while( i-- )
     {
       this.objects[ i ].tick();
     }
+
     
-    
-    
+    /* Target Detection */
     i = this.towers.length;
     while( i-- )
     {

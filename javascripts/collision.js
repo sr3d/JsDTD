@@ -39,28 +39,23 @@ BoundingShape.Rectangle = Class.create( BoundingShape.Base, {
 	,collidesWith: function( shape ) {
 		if( !shape.isEnabled || !this.isEnabled ) return false;
 
-//		switch( shape.type )
-//		{
-//			case 'rectangle':
-				var left1, right1, top1, bottom1, left2, right2, top2, bottom2;
-				left1 = this.x;
-				right1 = this.x + this.w;
-				top1 = this.y;
-				bottom1 = this.y + this.h;
-				
-				left2 = shape.x;
-				right2 = shape.x + shape.w;
-				top2 = shape.y;
-				bottom2 = shape.y + shape.h;		
+    bottom1 = this.y + this.h;
+		var top2 = shape.y;
+		if( bottom1 < top2 ) return false;
 
-				if( bottom1 < top2 ) return false;
-				if( top1 > bottom2 ) return false;
-				if( right1 < left2 ) return false;
-				if( left1 > right2 ) return false;
+		var top1 = this.y;
+		var bottom2 = shape.y + shape.h;		
+		if( top1 > bottom2 ) return false;
 
-				return true;
-//				break;
-//		}
+		var right1 = this.x + this.w;
+		var left2 = shape.x;
+		if( right1 < left2 ) return false;
+		
+		var left1 = this.x;
+		var right2 = shape.x + shape.w;
+		if( left1 > right2 ) return false;
+
+		return true;
 	}
 
 	,update: function($super){ 

@@ -79,11 +79,11 @@ var Grid = Class.create( {
       }
     }
     this.node.innerHTML = html.join( ' ' );
-    $$('.grid_cell').each( function(item) { 
-      Event.observe( item, 'mouseover', function() { 
-        sl.log('MouseOver:',this.id  );
-      } );
-    } );
+    //$$('.grid_cell').each( function(item) { 
+    //  Event.observe( item, 'mouseover', function() { 
+    //    sl.log('MouseOver:',this.id  );
+    //  } );
+    //} );
   }
   
   ,cellHtml: function( x, y) { 

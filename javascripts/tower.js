@@ -52,12 +52,24 @@ Tower.Canon = Class.create( Tower.Base, {
     this.size       = 2;
     this.bbRadius   = 4;
     
+    this.DEFAULT_COOL_TIME = 15;  // 10 ticks between firing
+    this.coolTime = 0;
+
     $super( this.type, x, y, grid , options );
+    
+    /* for the turret */
+    this.centerCoords = this.grid.xyToLeftTop( [ this.x /2, this.y / 2 ] );
+    this.radius = 10; // 10px around the center 
+    
+    this.updateTurret();
   }
   
   ,render: function() { 
     ( this.grid.getTowersContainer() ).insert( { bottom: this.html() } );
-    this.node = $(this.id);
+    this.node   = $(this.id);
+    this.turret = $( this.id + '_turret' );
+    
+
   }
   
   ,html: function() { 
@@ -65,32 +77,55 @@ Tower.Canon = Class.create( Tower.Base, {
     
     var html  = "<div id='"+ this.id + "' style='left:" + coords[0] + "px;top:" + coords[1] + 
                 ";width:"+ JsDTDConfig.cellSize * this.size +   "px; height:" + JsDTDConfig.cellSize * this.size +"px'" + 
-                " class='tower canon'></div>";
+                " class='tower canon'><div id='" + this.id +"_turret' class='turret'></div></div>";
     return html;
   }
   
   ,tick: function() { 
-    //console.log( 'ticking - Canon %i', this.id );
-    if( this.lockOnTarget ) 
+    if( this.lockedOnTarget ) 
     { 
-      if( !this.bb.collidesWith( this.lockOnTarget.bb ) )
+      /* user got the advantage here ! */
+      if( this.coolTime == 0 )
       {
-        this.logStatus( 'No longer locking on ' + this.lockOnTarget.id );
-        this.lockOnTarget = null;
+        this.coolTime = this.DEFAULT_COOL_TIME;
+        //console.log( this.id + ' fires at ' + this.lockedOnTarget.id  );
       }
+
+      if( !this.bb.collidesWith( this.lockedOnTarget.bb ) )
+      {
+        this.logStatus( 'No longer locking on ' + this.lockedOnTarget.id );
+        this.lockedOnTarget = null;
+      } 
+      
+      //this.updateTurret();
     }
-    
+
+    if( this.coolTime > 0 ) this.coolTime--;
   }
-  
-  ,findTarget: function() { 
-    
-  }
+
   
   ,lockOn: function( creep ) { 
     this.logStatus( 'Locking on ' + creep.id );
-    this.lockOnTarget = creep;
+    this.lockedOnTarget = creep;
   }
   
+  ,updateTurret: function() { 
+    if( this.lockedOnTarget )
+    {
+      var coords = [ this.lockedOnTarget.getX(), this.lockedOnTarget.getY() ];
+      this.turret.style.left =  ( coords[0] > this.centerCoords[0] + this.radius ? this.centerCoords[0] + this.radius :
+                                  coords[0] < this.centerCoords[0] - this.radius ? this.centerCoords[0] - this.radius :
+                                  coords[0] ) + 'px';
+      this.turret.style.top  =  ( coords[1] > this.centerCoords[1] + this.radius ? this.centerCoords[1] + this.radius :
+                                  coords[1] < this.centerCoords[1] - this.radius ? this.centerCoords[1] - this.radius :
+                                  coords[1] ) + 'px';
+      return;
+    }
+    
+    /* set turret to default position */
+    this.turret.style.left = (this.centerCoords[0] - this.radius) + 'px';
+    this.turret.style.top  = (this.centerCoords[1] - this.radius) + 'px';
+  }
 
 } );
 

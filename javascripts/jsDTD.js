@@ -83,6 +83,9 @@ var JsDTD = Class.create( Console, {
       setTimeout( function() { self.addCreep( 0 , 0, Soot ) }, 5000 );
       setTimeout( function() { self.addCreep( 0 , 0, Soot ) }, 8000 );
       setTimeout( function() { self.addCreep( 0 , 0, Soot ) }, 10000 );
+      setTimeout( function() { self.addCreep( 0 , 0, Soot ) }, 15000 );
+      setTimeout( function() { self.addCreep( 0 , 0, Soot ) }, 17000 );
+      setTimeout( function() { self.addCreep( 0 , 0, Soot ) }, 18000 );
     }, 500 );
   }
     

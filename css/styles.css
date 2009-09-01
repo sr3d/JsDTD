@@ -1,20 +1,30 @@
 body { font-family: arial; }
 #canvas
-{ border: 10px solid #DFDFDF; width: 520px; height: 520px; position: relative; margin: 0 auto; }
+{ border: 10px solid #DFDFDF; width: 520px; height: 520px; position: relative; margin: 0 auto; 
+  background: url('../images/cell_bg.gif'); }
 
 .grid_cell
-{ border: 1px solid #EFEFEF; position: absolute;}    
+{ border: 1px solid #EFEFEF; position: absolute; display: none; }    
   .highlight
-  { background-color: #FFDFDF; }
+  { background-color: #FFDFDF; display: block; }
 
 #score
 { font-size: 40px; position: absolute; right: 0px; top: 0px; }
 
 
-.tower { background-color: #DFDFDF; border: 1px solid #3F73FF; position: absolute; }
+.tower { position: absolute; }
+  .canon
+  { background: url('../images/tower_1.png') no-repeat top left; }
+    .turret
+    { width: 4px; height: 4px; background-color: black; position: absolute; display: none;}
 
 .creep
 { position: absolute; width: 20px; height: 20px; }
+  .creep .hp_wrapper
+  {width: 100%; background-color: #BFBFBF; height: 4px; border: 1px solid #BFBFBF; margin-top: 18px; }
+    .creep .hp_wrapper .hp
+    { width: 80%; background-color: #B3FFAF; height: 100%; }
+  
 .soot
 { background: url('../images/soot.png') no-repeat top left; }
 

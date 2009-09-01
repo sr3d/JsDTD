@@ -86,7 +86,7 @@ var Soot = Class.create( Sprite, {
 	
 	,html: function() { 
     var coords = this.grid.xyToLeftTop( this.x, this.y );
-    var html   = "<div id='" + this.id + "' style='left:" + coords[0] + "px;top:" + coords[1] + "px' class='creep soot'></div>";
+    var html   = "<div id='" + this.id + "' style='left:" + coords[0] + "px;top:" + coords[1] + "px' class='creep soot'><div id='" + this.id+ "_hp_wrapper' class='hp_wapper'><div id='" + this.id + "_hp' class='hp'></div></div></div>";
     return html
 	}
 	
