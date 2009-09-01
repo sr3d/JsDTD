@@ -52,8 +52,7 @@ var Grid = Class.create( {
   ,addCreep: function( x, y, creepType ) { 
     var creep = new creepType( this );
     creep.setPath( this.calculatePath() );
-    console.log( 'Adding new creep: %o', creep );
-    
+    //console.log( 'Adding new creep: %o', creep );
     return creep;
   }
   

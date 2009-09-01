@@ -70,10 +70,18 @@ var JsDTD = Class.create( Console, {
     $super();
     
     var self = this;
-    setTimeout( function() { self.addCreep( 0 , 0, Soot ) }, 1000 );
-    setTimeout( function() { self.addCreep( 0 , 0, Soot ) }, 3000 );
-    setTimeout( function() { self.addCreep( 0 , 0, Soot ) }, 5000 );
-    
+
+    /* pre-calculate the path to cache it */
+    this.grid.calculatePath();
+
+    // time out so to make sure the app init correctly    
+    setTimeout( function() { 
+      setTimeout( function() { self.addCreep( 0 , 0, Soot ) }, 1000 );
+      setTimeout( function() { self.addCreep( 0 , 0, Soot ) }, 3000 );
+      setTimeout( function() { self.addCreep( 0 , 0, Soot ) }, 5000 );
+      setTimeout( function() { self.addCreep( 0 , 0, Soot ) }, 8000 );
+      setTimeout( function() { self.addCreep( 0 , 0, Soot ) }, 10000 );
+    }, 500 );
   }
     
 } );
