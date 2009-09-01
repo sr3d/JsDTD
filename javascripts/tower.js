@@ -57,6 +57,15 @@ Tower.Canon = Class.create( Tower.Base, {
   
   ,tick: function() { 
     //console.log( 'ticking - Canon %i', this.id );
+    if( this.lockOnTarget ) { }
+  }
+  
+  ,findTarget: function() { 
+    
+  }
+  
+  ,lock: function() { 
+    
   }
 
 } );

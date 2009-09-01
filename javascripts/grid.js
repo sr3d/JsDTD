@@ -60,7 +60,7 @@ var Grid = Class.create( {
   ,calculatePath: function() { 
     //window.DEBUG = true;
     var outGate = [ ( this.x - 1 ), Math.floor( this.y /2 ) ];
-    var path = this.graph.aStar( 0, Math.floor( (this.y - 5 ) / 2 ), outGate[0], outGate[1] );
+    var path = this.graph.aStar( 0, Math.floor( (this.y - 6 ) / 2 ), outGate[0], outGate[1] );
     //console.log( path );
     //window.DEBUG = false;
     return path;

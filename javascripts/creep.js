@@ -29,8 +29,12 @@ var Soot = Class.create( Sprite, {
 
   ,tick : function() {
     if( this.wayPoint >= this.path.length )
+    {
+      this.wayPoint = 0;
+      this._nextCoords = null;
       return;
-      
+    } 
+    
     var nextCoords = this._getNextCoords();
 
     /* todo: cache the next delta to move */
@@ -45,7 +49,7 @@ var Soot = Class.create( Sprite, {
     if( this.getY() != nextCoords[1] )
     {
       var dy = Math.abs( nextCoords[1] - this.getY() ) <=  this.getSpeed() ? 
-                    nextCoords[1] - this.getY() :              
+                    nextCoords[1] - this.getY() :
                     ( nextCoords[1] > this.getY() ? 1 : -1 ) * this.getSpeed();
       this.setY( this.getY() + dy );
     }
@@ -55,6 +59,7 @@ var Soot = Class.create( Sprite, {
     {
       this.wayPoint++;
       this._nextCoords = null;
+
       
       //console.log( 'bump to next waypoint %s %o', this.wayPoint, this.path[ this.wayPoint ] );
       //sl.log( 'Next Coords:', this.path[ this.wayPoint ].toString() );
@@ -62,6 +67,7 @@ var Soot = Class.create( Sprite, {
   }
   
   ,_getNextCoords: function() { 
+    /* cache the next coordniates */
     if( this._nextCoords ) return this._nextCoords;
     this._nextCoords = this.grid.xyToLeftTop( this.path[ this.wayPoint ][0], this.path[ this.wayPoint ][1]  );
     return this._nextCoords;

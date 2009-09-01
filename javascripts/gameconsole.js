@@ -9,7 +9,7 @@ Console.prototype = {
     this.screen     = screen;
     this.counter    = 0;
     
-    this.MAX_TICK   = 1000;
+    this.MAX_TICK   = -1 //1000;
   }
   
   ,start: function() {
@@ -44,7 +44,7 @@ Console.prototype = {
     this.counter++;
     
     window.sl.log('Current Game Tick', this.counter );
-    if( this.counter > this.MAX_TICK )
+    if( this.MAX_TICK != -1 && this.counter > this.MAX_TICK)
     {
       console.log( 'MAX_TICK reached - stopping...' );
       this.stop();

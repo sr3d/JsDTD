@@ -14,7 +14,7 @@ var Graph = function( graph, options ) {
     
     this.MOVE_COST      = 10;
     this.X_MOVE_COST    = 21;
-    this.ALLOW_X_MOVE   = false;  // no diagnal movement
+    this.ALLOW_X_MOVE   = true;  // no diagnal movement
 };
 
 Graph.prototype = { 
