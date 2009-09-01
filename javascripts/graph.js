@@ -11,6 +11,7 @@ var l = function() {
 var Graph = function( graph, options ) {
     this.graph = graph;
     this.name = 'Graph';
+		this._paths = [];
     
     this.MOVE_COST      = 10;
     this.X_MOVE_COST    = 21;
@@ -18,9 +19,19 @@ var Graph = function( graph, options ) {
 };
 
 Graph.prototype = { 
-  
-  aStar: function( startX, startY, endX, endY ) { 
-    var startTime = new Date();
+   markDirty: function() { this.isDirty = true; 
+	   this._paths = [];
+	 }
+  ,aStar: function( startX, startY, endX, endY ) {
+		console.log( this._paths );
+    /* return the cache version */
+    if( this._paths[ startX + "_" + startY + "_" + endX + "_" + endY ] ) 
+    {
+      console.log( 'return form cache' );
+			return this._paths[ startX + "_" + startY + "_" + endX + "_" + endY ];  
+    }
+		
+		var startTime = new Date();
     
     var open = new Util.PQ();
 
@@ -29,7 +40,7 @@ Graph.prototype = {
     var h = function( x1, y1, x2, y2 ) { l( arguments) ;return Math.abs( x1 - x2 ) + Math.abs( y1 - y2 ); }
     
     var graphStatus = {};
-
+    var self = this;
     var addToOpen = function( x, y, parentX, parentY, moveCost, hCost ) { 
       var fCost = moveCost + hCost;
       graphStatus[ x + '_' + y ] = {x: x, y: y, parentX: parentX, parentY: parentY, moveCost: moveCost, hCost: hCost };
@@ -53,6 +64,8 @@ Graph.prototype = {
           path.splice( 0, 0, [node.x, node.y] );
         node = graphStatus[ node.parentX + '_' + node.parentY ];
       }
+
+			self._paths[ startX + "_" + startY + "_" + endX + "_" + endY ] = path;
       return path;
     }
     
