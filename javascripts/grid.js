@@ -68,6 +68,7 @@ var Grid = Class.create( {
   ,getContainer: function() { return this.node; }
   ,getTowersContainer: function() { return $('towers'); }
   ,getUnitsContainer: function() { return $('units'); }
+  ,getBulletsContainer: function() { return $('bullets'); }
   
   ,render: function() { 
     var html = [];
@@ -78,7 +79,10 @@ var Grid = Class.create( {
         html.push( this.cellHtml( i, j ) );
       }
     }
-    this.node.innerHTML = html.join( ' ' );
+    
+    
+    // this.node.innerHTML = html.join( ' ' );
+    
     //$$('.grid_cell').each( function(item) { 
     //  Event.observe( item, 'mouseover', function() { 
     //    sl.log('MouseOver:',this.id  );

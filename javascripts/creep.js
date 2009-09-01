@@ -5,6 +5,7 @@ var Soot = Class.create( Sprite, {
     this.friction = 1;
     this.velocity = 0;
     this.type     = 'soot';
+    this.isAlive  = true;
 
     //this.x = 0;
     //this.y = 100;
@@ -21,16 +22,11 @@ var Soot = Class.create( Sprite, {
     $super( this.id );
     
     this.maxHP = 100;
-    this.currentHP = 30;
+    this.currentHP = this.maxHP;
     
     this.updateHP();
   }
 
-  ,updateHP: function() { 
-    var width = Math.floor( this.currentHP * 100 / this.maxHP );
-		$(this.id + '_hp').style.width = width + '%';
-	}
-	
 	,getSpeed: function() { return this.speed - this.friction; }
 
   ,tick : function() {
@@ -98,7 +94,7 @@ var Soot = Class.create( Sprite, {
 	
 	,setPath: function( path ) { 
 	  this.path = path;
-	  this.highlightPath();
+	  //this.highlightPath();
 	  this.resetPosition();
 	}
 	
@@ -115,4 +111,21 @@ var Soot = Class.create( Sprite, {
     this.node.style.left = coords[0] + 'px';
     this.node.style.top  = coords[1] + 'px';
   }
+  
+  ,takeDamage: function( hp ) {
+    this.currentHP -= hp;
+    this.updateHP();
+    
+    if( this.currentHP <= 0 )
+    {
+      console.log( 'Creep ' + this.id + ' is dead' );  
+      this.isAlive = false;
+    }
+  }
+  
+  ,setHP: function( hp ) { this.hp = hp; if( this.hp > 0 ) this.isAlive = true; this.updateHP(); }
+  
+  ,updateHP: function() { 
+		$(this.id + '_hp').style.width = Math.floor( this.currentHP * 100 / this.maxHP ) + '%';
+	}  
 } );

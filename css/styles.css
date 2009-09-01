@@ -17,6 +17,10 @@ body { font-family: arial; }
   { background: url('../images/tower_1.png') no-repeat top left; }
     .turret
     { width: 4px; height: 4px; background-color: black; position: absolute; display: none;}
+.bullet
+{ position: absolute; }
+  .canon_level_1
+  { width: 3px; height: 3px; background-color: black; }
 
 .creep
 { position: absolute; width: 20px; height: 20px; }

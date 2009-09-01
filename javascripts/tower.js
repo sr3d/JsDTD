@@ -52,13 +52,18 @@ Tower.Canon = Class.create( Tower.Base, {
     this.size       = 2;
     this.bbRadius   = 4;
     
+    this.level      = 0;
+    
+    this.bulletTypes = [ Bullet.CanonBulletLevel1 ];
+    
     this.DEFAULT_COOL_TIME = 15;  // 10 ticks between firing
     this.coolTime = 0;
 
     $super( this.type, x, y, grid , options );
     
     /* for the turret */
-    this.centerCoords = this.grid.xyToLeftTop( [ this.x /2, this.y / 2 ] );
+    this.centerCoords = this.grid.xyToLeftTop( this.x + this.size/2, this.y + this.size / 2 );
+    
     this.radius = 10; // 10px around the center 
     
     this.updateTurret();
@@ -68,8 +73,6 @@ Tower.Canon = Class.create( Tower.Base, {
     ( this.grid.getTowersContainer() ).insert( { bottom: this.html() } );
     this.node   = $(this.id);
     this.turret = $( this.id + '_turret' );
-    
-
   }
   
   ,html: function() { 
@@ -88,7 +91,11 @@ Tower.Canon = Class.create( Tower.Base, {
       if( this.coolTime == 0 )
       {
         this.coolTime = this.DEFAULT_COOL_TIME;
-        //console.log( this.id + ' fires at ' + this.lockedOnTarget.id  );
+        new this.bulletTypes[ this.level ]( 
+          this.centerCoords[0] , this.centerCoords[1]
+          ,this.lockedOnTarget, this.grid
+        );
+        
       }
 
       if( !this.bb.collidesWith( this.lockedOnTarget.bb ) )
