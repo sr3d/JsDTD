@@ -11,6 +11,8 @@ Sprite.prototype = {
   ,moveBy: function(dx, dy) { this.setX(this.getX()+dx); this.setY(this.getY()+dy); }
   ,getW : function() { return this.node.offsetWidth; }
   ,getH : function() { return this.node.offsetHeight; }
+  
+  ,logStatus: function( msg ) { sl.log( this.id + " Status", msg ); }
 };
 
 
@@ -69,16 +71,26 @@ Tower.Canon = Class.create( Tower.Base, {
   
   ,tick: function() { 
     //console.log( 'ticking - Canon %i', this.id );
-    if( this.lockOnTarget ) { }
+    if( this.lockOnTarget ) 
+    { 
+      if( !this.bb.collidesWith( this.lockOnTarget.bb ) )
+      {
+        this.logStatus( 'No longer locking on ' + this.lockOnTarget.id );
+        this.lockOnTarget = null;
+      }
+    }
+    
   }
   
   ,findTarget: function() { 
     
   }
   
-  ,lock: function() { 
-    
+  ,lockOn: function( creep ) { 
+    this.logStatus( 'Locking on ' + creep.id );
+    this.lockOnTarget = creep;
   }
+  
 
 } );
 

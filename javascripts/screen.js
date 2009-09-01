@@ -34,7 +34,21 @@ Screen.JsDTD = Class.create( Screen.Base, {
       this.objects[ i ].tick();
     }
     
-    // TODO: doing path-recalculation
+    
+    
+    i = this.towers.length;
+    while( i-- )
+    {
+      var j = this.creeps.length;
+      while( j-- )
+      {
+        if( !this.towers[i].lockOnTarget && this.towers[i].bb.collidesWith( this.creeps[j].bb ) )
+        {
+          this.towers[i].lockOn( this.creeps[j] );
+        }
+      }
+    }
+    
   }
 
 } );

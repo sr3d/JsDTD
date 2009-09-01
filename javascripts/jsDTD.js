@@ -30,6 +30,8 @@ var JsDTD = Class.create( Console, {
     this.creeps = [];
     
     $super( new Screen.JsDTD(), options );
+    this.screen.towers = this.towers;
+    this.screen.creeps = this.creeps;
   
   }
   
