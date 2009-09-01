@@ -82,7 +82,7 @@ Graph.prototype = {
       /* Found the destination */
       if( node.x == endX && node.y == endY )
       {
-        console.log( 'arrive at dest %o after %s iterations, taking %s ms',  node, DEBUG_FLAG, ( new Date() - startTime ) );
+        //console.log( 'arrive at dest %o after %s iterations, taking %s ms',  node, DEBUG_FLAG, ( new Date() - startTime ) );
         return extractPath( node.x, node.y );
       }
       

@@ -19,10 +19,16 @@ var Soot = Class.create( Sprite, {
     this.render();
     
     $super( this.id );
+    
+    this.maxHP = 100;
+    this.currentHP = 30;
+    
+    this.updateHP();
   }
 
-  ,updateBoundingBox: function() { 
-		//this.bb.setPos( this.x, this.y );
+  ,updateHP: function() { 
+    var width = Math.floor( this.currentHP * 100 / this.maxHP );
+		$(this.id + '_hp').style.width = width + '%';
 	}
 	
 	,getSpeed: function() { return this.speed - this.friction; }
@@ -86,7 +92,7 @@ var Soot = Class.create( Sprite, {
 	
 	,html: function() { 
     var coords = this.grid.xyToLeftTop( this.x, this.y );
-    var html   = "<div id='" + this.id + "' style='left:" + coords[0] + "px;top:" + coords[1] + "px' class='creep soot'><div id='" + this.id+ "_hp_wrapper' class='hp_wapper'><div id='" + this.id + "_hp' class='hp'></div></div></div>";
+    var html   = "<div id='" + this.id + "' style='left:" + coords[0] + "px;top:" + coords[1] + "px' class='creep soot'><div id='" + this.id+ "_hp_wrapper' class='hp_wrapper'><div id='" + this.id + "_hp' class='hp'></div></div></div>";
     return html
 	}
 	

@@ -20,10 +20,10 @@ body { font-family: arial; }
 
 .creep
 { position: absolute; width: 20px; height: 20px; }
-  .creep .hp_wrapper
-  {width: 100%; background-color: #BFBFBF; height: 4px; border: 1px solid #BFBFBF; margin-top: 18px; }
-    .creep .hp_wrapper .hp
-    { width: 80%; background-color: #B3FFAF; height: 100%; }
+  .hp_wrapper
+  {width: 20px; background-color: #BFBFBF; height: 4px; border: 1px solid #7F7F7F; margin-top: 18px; }
+    .hp
+    { width: 80%; background-color: #B3FFAF; height: 4px;}
   
 .soot
 { background: url('../images/soot.png') no-repeat top left; }
