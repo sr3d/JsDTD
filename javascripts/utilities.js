@@ -97,3 +97,4 @@ Util.StaticLogger = {
   }
 }
 var sl = Util.StaticLogger;
+Util.StaticLogger.log = function(msg) { ;};

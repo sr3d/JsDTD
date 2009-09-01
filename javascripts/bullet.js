@@ -76,11 +76,10 @@ initialize: function( $super, x, y, creep, grid, options ) {
   
   ,fire: function() { 
     var targetCoords = [this.creep.getX(), this.creep.getY() ];
-    var angle = Math.atan( ( targetCoords[0] - this.getX()) / ( targetCoords[1] - this.getY() )  );
-    console.log( 'bullet ' + this.id + ' - angle: ' + angle );
+    var angle = Math.atan( Math.abs( targetCoords[0] - this.getX()) / Math.abs( targetCoords[1] - this.getY() )  );
     var dx = ( this.getX() >= targetCoords[0] ? -1 : 1 ) * Math.sin( angle ) * this.speed;
     var dy = ( this.getY() >= targetCoords[1] ? -1 : 1 ) * Math.cos( angle ) * this.speed;
-    
+
     var self = this;
     this.interval = setInterval( function() {
       /* make sure the target is alive */

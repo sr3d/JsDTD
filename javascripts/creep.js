@@ -1,7 +1,7 @@
 var Soot = Class.create( Sprite, { 
   initialize: function( $super, grid, x, y ) { 
     this.id       = 'soot_' + JsDTDConfig.nextInt() ;
-    this.speed    = 3;
+    this.speed    = 2;
     this.friction = 1;
     this.velocity = 0;
     this.type     = 'soot';

@@ -87,8 +87,12 @@ Tower.Canon = Class.create( Tower.Base, {
   ,tick: function() { 
     if( this.lockedOnTarget ) 
     { 
-      /* user got the advantage here ! */
-      if( this.coolTime == 0 )
+      if( !this.lockedOnTarget.isAlive || !this.bb.collidesWith( this.lockedOnTarget.bb ) )
+      {
+        this.logStatus( 'No longer locking on ' + this.lockedOnTarget.id );
+        this.lockedOnTarget = null;
+      }
+      else if( this.coolTime == 0 )
       {
         this.coolTime = this.DEFAULT_COOL_TIME;
         new this.bulletTypes[ this.level ]( 
@@ -98,11 +102,7 @@ Tower.Canon = Class.create( Tower.Base, {
         
       }
 
-      if( !this.bb.collidesWith( this.lockedOnTarget.bb ) )
-      {
-        this.logStatus( 'No longer locking on ' + this.lockedOnTarget.id );
-        this.lockedOnTarget = null;
-      } 
+
       
       //this.updateTurret();
     }

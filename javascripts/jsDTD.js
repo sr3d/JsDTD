@@ -79,13 +79,13 @@ var JsDTD = Class.create( Console, {
     // time out so to make sure the app init correctly    
     setTimeout( function() { 
       setTimeout( function() { self.addCreep( 0 , 0, Soot ) }, 1000 );
-      //setTimeout( function() { self.addCreep( 0 , 0, Soot ) }, 3000 );
-      //setTimeout( function() { self.addCreep( 0 , 0, Soot ) }, 5000 );
-      //setTimeout( function() { self.addCreep( 0 , 0, Soot ) }, 8000 );
-      //setTimeout( function() { self.addCreep( 0 , 0, Soot ) }, 10000 );
-      //setTimeout( function() { self.addCreep( 0 , 0, Soot ) }, 15000 );
-      //setTimeout( function() { self.addCreep( 0 , 0, Soot ) }, 17000 );
-      //setTimeout( function() { self.addCreep( 0 , 0, Soot ) }, 18000 );
+      setTimeout( function() { self.addCreep( 0 , 0, Soot ) }, 3000 );
+      setTimeout( function() { self.addCreep( 0 , 0, Soot ) }, 5000 );
+      setTimeout( function() { self.addCreep( 0 , 0, Soot ) }, 8000 );
+      setTimeout( function() { self.addCreep( 0 , 0, Soot ) }, 10000 );
+      setTimeout( function() { self.addCreep( 0 , 0, Soot ) }, 15000 );
+      setTimeout( function() { self.addCreep( 0 , 0, Soot ) }, 17000 );
+      setTimeout( function() { self.addCreep( 0 , 0, Soot ) }, 18000 );
     }, 500 );
   }
     
