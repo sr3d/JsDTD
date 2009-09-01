@@ -17,3 +17,6 @@ body { font-family: arial; }
 { position: absolute; width: 20px; height: 20px; }
 .soot
 { background: url('../images/soot.png') no-repeat top left; }
+
+.bb
+{ border: 1px solid red; position: absolute; }

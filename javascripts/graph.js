@@ -23,11 +23,11 @@ Graph.prototype = {
 	   this._paths = [];
 	 }
   ,aStar: function( startX, startY, endX, endY ) {
-		console.log( this._paths );
+		//console.log( this._paths );
     /* return the cache version */
     if( this._paths[ startX + "_" + startY + "_" + endX + "_" + endY ] ) 
     {
-      console.log( 'return form cache' );
+      //console.log( 'return form cache' );
 			return this._paths[ startX + "_" + startY + "_" + endX + "_" + endY ];  
     }
 		

@@ -8,6 +8,8 @@ BoundingShape.Base = Class.create( {
 			,y: 	0	
 		}, options || {} );
 		this.setPos( options.x, options.y );
+		
+		this.update();
 	}
 
 	,collidesWith: function( shape ) { 
@@ -29,15 +31,17 @@ BoundingShape.Rectangle = Class.create( BoundingShape.Base, {
 		this.type = 'rectangle';
 		this.isEnabled = true;
 
-		$super( id, options );	
+		$super( id, options );
+		
+		
 	}
 	
 	,collidesWith: function( shape ) {
 		if( !shape.isEnabled || !this.isEnabled ) return false;
 
-		switch( shape.type )
-		{
-			case 'rectangle':
+//		switch( shape.type )
+//		{
+//			case 'rectangle':
 				var left1, right1, top1, bottom1, left2, right2, top2, bottom2;
 				left1 = this.x;
 				right1 = this.x + this.w;
@@ -55,15 +59,13 @@ BoundingShape.Rectangle = Class.create( BoundingShape.Base, {
 				if( left1 > right2 ) return false;
 
 				return true;
-				break;
-		}
+//				break;
+//		}
 	}
 
 	,update: function($super){ 
 		if( window.DEBUG_COLLISION )
 		{
-			//if( typeof this.isEnabled == 'undefined' )
-			
 		  var id = this.id + '_bb';
 			if( !this.box )
 			{

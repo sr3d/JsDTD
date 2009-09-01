@@ -29,14 +29,26 @@ Tower.Base = Class.create( Sprite, {
     this.id = "tower_" + this.x + '_' + this.y;
     this.render();
     this.node = $(this.id);
+   
+    this.bb = new BoundingShape.Rectangle( this.id, { 
+      w:  this.grid.cellSize * ( this.size + this.bbRadius )
+      ,h: this.grid.cellSize * ( this.size + this.bbRadius )
+      ,x: this.grid.xyToLeftTop( this.x - this.bbRadius/2, 0 )[0]
+      ,y: this.grid.xyToLeftTop( this.x, this.y - this.bbRadius/2 )[1]
+    } );
+    
+    
+    this.bb.update();
+    
   }
   ,render: function() { throw 'Not implemented'; }
 });
 
 Tower.Canon = Class.create( Tower.Base, {
   initialize: function( $super, x, y, grid, options ) {
-    this.type = 'canon';
-    this.size = 2;
+    this.type       = 'canon';
+    this.size       = 2;
+    this.bbRadius   = 4;
     
     $super( this.type, x, y, grid , options );
   }

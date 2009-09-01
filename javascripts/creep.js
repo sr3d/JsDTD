@@ -14,7 +14,7 @@ var Soot = Class.create( Sprite, {
     
     this.grid = grid;
     
-    //this.bb = new BoundingShape.Rectangle( this.id, {x: this.x, y: this.y, w: 15, h: 15} );
+    this.bb = new BoundingShape.Rectangle( this.id, {x: this.x, y: this.y, w: 15, h: 15} );
 
     this.render();
     
@@ -53,6 +53,8 @@ var Soot = Class.create( Sprite, {
                     ( nextCoords[1] > this.getY() ? 1 : -1 ) * this.getSpeed();
       this.setY( this.getY() + dy );
     }
+
+    this.bb.setPos( this.getX(), this.getY() );
     
     /* arrive at the targetted cell, bump it to next */
     if( this.getX() == nextCoords[0] && this.getY() == nextCoords[1] )
