@@ -49,9 +49,16 @@ Event.observe( window, 'load', function() {
 
 <body id="index" onload="">
   
-  <div style='margin: 0 auto; width: 520px;font-size: 48px;; font-weight: bold; text-align: right;'>
-    towerdefense
-  </div>  
+  <div style='margin: 0 auto; width: 520px;height: 60px;'>
+    <div style="float:left; font-size: 48px; font-weight: bold;">
+      towerdefense
+    </div>
+    <div style='float: right;padding-top: 10px;'>
+      
+      <img src='images/heart.gif'/>&nbsp;<span id='lives'>0</span>&nbsp;
+      <img src='images/buy.gif'/>&nbsp;<span id='scores'>0</span>
+    </div>
+  </div>
   
 	<div id="canvas">
 	  <div id="grid">

@@ -7,6 +7,7 @@ var Soot = Class.create( Sprite, {
       ,friction:    1
       ,maxHP:       100
       ,level:       1
+      ,scores:      10
     }, options || {} );
     
     
@@ -14,7 +15,8 @@ var Soot = Class.create( Sprite, {
     this.friction = options.friction;
     this.maxHP    = options.maxHP;
     this.level    = options.level;
-
+    this.scores   = options.scores;
+    
     this.type     = 'soot';
     this.isAlive  = true;
     
@@ -42,6 +44,8 @@ var Soot = Class.create( Sprite, {
     
     if( this.wayPoint >= this.path.length )
     {
+      /* creeps ran away! */
+      
       this.wayPoint = 0;
       this._nextCoords = null;
       return;
@@ -142,6 +146,12 @@ var Soot = Class.create( Sprite, {
     this.isAlive = false;
     new Effect.Puff( this.id );
     $(this.id + '_hp').hide();
+    
+    window.game.addScores( this.getScores() );
+  }
+  
+  ,getScores: function() { 
+    return this.scores;
   }
   
   ,setHP: function( hp ) { this.hp = hp; if( this.hp > 0 ) this.isAlive = true; this.updateHP(); }
@@ -162,6 +172,7 @@ var SootLevel2 = Class.create( Soot, {
       ,friction:    1
       ,level:       2
       ,maxHP:       200
+      ,scores:      15
     }, options || {} );
 
     $super( grid, x, y, options );    

@@ -114,12 +114,12 @@ Tower.Canon = Class.create( Tower.Base, {
     { 
       if( !this.lockedOnTarget.isAlive )
       {
-        console.log( 'target %o is no longer alive ', this.lockedOnTarget );
-        delete this.lockedOnTarget;
+        //console.log( 'target %o is no longer alive ', this.lockedOnTarget );
+        this.lockedOnTarget = null;
       }
       else if ( !this.bb.collidesWith( this.lockedOnTarget.bb ) )
       {
-        console.log( 'target %o is outside range', this.lockedOnTarget );
+        //console.log( 'target %o is outside range', this.lockedOnTarget );
         this.lockedOnTarget = null;
       }
       else if( this.coolTime == 0 )
@@ -140,7 +140,7 @@ Tower.Canon = Class.create( Tower.Base, {
 
   
   ,lockOn: function( creep ) { 
-    this.logStatus( 'Locking on ' + creep.id );
+    //this.logStatus( 'Locking on ' + creep.id );
     this.lockedOnTarget = creep;
   }
   

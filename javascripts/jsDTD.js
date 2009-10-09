@@ -32,6 +32,11 @@ var JsDTD = Class.create( Console, {
     $super( new Screen.JsDTD(), options );
     this.screen.towers = this.towers;
     this.screen.creeps = this.creeps;
+    
+    /* Set the scores */
+    this.scores   = 0;
+    this.lives    = 20; // number of creeps that can run away
+    this.refresh();
   
   }
   
@@ -105,6 +110,37 @@ var JsDTD = Class.create( Console, {
       setTimeout( function() { self.addCreep( 0 , 0, SootLevel2 ) }, 17000 );
       setTimeout( function() { self.addCreep( 0 , 0, Soot ) }, 18000 );
     }, 500 );
+  }
+  
+  ,creepsRunAway: function() { 
+    this.lives--;
+    this.refresh();
+  }
+  
+  ,addScores: function( score ) { 
+    var prevScores = this.scores + 1;
+    this.scores += score;
+    //this.refresh();
+    if( !this._animatedScores )
+    {
+      this._animatedScores = setInterval( function() { 
+        if( prevScores < this.scores )
+        {
+          prevScores += 1;
+          $('scores').innerHTML = prevScores++;
+        }
+        else
+        {
+          clearInterval( this._animatedScores );
+          this._animatedScores = null;
+        }
+      }.bind(this), 20 );
+    }
+  }
+  
+  ,refresh: function() { 
+    $('lives').innerHTML = this.lives;
+    $('scores').innerHTML = this.scores;
   }
     
 } );

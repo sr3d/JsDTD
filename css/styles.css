@@ -8,8 +8,10 @@ body { font-family: arial; }
   .highlight
   { background-color: #FFDFDF; display: block; }
 
-#score
-{ font-size: 40px; position: absolute; right: 0px; top: 0px; }
+#lives
+{ font-size: 30px; color:red;}
+#scores
+{ font-size: 30px; color:#7F7F7F; }
 
 
 .tower { position: absolute; }
