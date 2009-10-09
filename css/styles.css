@@ -35,6 +35,8 @@ body { font-family: arial; }
   .level_2
   { background: url('../images/soot_level2.gif') no-repeat top left; }
   
+.lockedOn
+{ border: 1px solid red !important; }
     
 .bb
 { border: 1px solid red; position: absolute; }
@@ -43,3 +45,4 @@ body { font-family: arial; }
 { border: 1px solid red; }
 .center
 { width: 2px; height: 2px; position: absolute; background-color: red; }
+

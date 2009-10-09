@@ -33,7 +33,6 @@ Screen.JsDTD = Class.create( Screen.Base, {
     {
       this.objects[ i ].tick();
     }
-
     
     /* Target Detection */
     i = this.towers.length;
@@ -42,6 +41,9 @@ Screen.JsDTD = Class.create( Screen.Base, {
       var j = this.creeps.length;
       while( j-- )
       {
+        if( !this.creeps[j].isAlive )
+          continue; 
+          
         if( !this.towers[i].lockOnTarget && this.towers[i].bb.collidesWith( this.creeps[j].bb ) )
         {
           this.towers[i].lockOn( this.creeps[j] );

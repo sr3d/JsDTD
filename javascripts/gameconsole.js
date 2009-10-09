@@ -9,7 +9,7 @@ Console.prototype = {
     this.screen     = screen;
     this.counter    = 0;
     
-    this.MAX_TICK   =  -1 //1000;
+    this.MAX_TICK   =   1000;
   }
   
   ,start: function() {

@@ -79,12 +79,25 @@ Tower.Canon = Class.create( Tower.Base, {
     this.radius = 10; // 10px around the center 
     
     this.updateTurret();
+    
+    this.lockedOnTarget = null;
   }
   
   ,render: function() { 
     ( this.grid.getTowersContainer() ).insert( { bottom: this.html() } );
     this.node   = $(this.id);
     this.turret = $( this.id + '_turret' );
+    
+    this.node.observe( 'mouseover', function() { 
+      if( this.lockedOnTarget )
+      {
+        $(this.lockedOnTarget.id).addClassName( 'lockedOn' )
+      }
+    }.bind(this) ).observe( 'mouseout', function() { 
+      if( this.lockedOnTarget )
+        $(this.lockedOnTarget.id).removeClassName( 'lockedOn' );
+    }.bind(this) );
+    
   }
   
   ,html: function() { 
@@ -97,12 +110,16 @@ Tower.Canon = Class.create( Tower.Base, {
   }
   
   ,tick: function() { 
-    if( this.lockedOnTarget ) 
+    if( this.lockedOnTarget != null ) 
     { 
-      if( !this.lockedOnTarget.isAlive || !this.bb.collidesWith( this.lockedOnTarget.bb ) )
+      if( !this.lockedOnTarget.isAlive )
       {
-        //this.logStatus( 'No longer locking on ' + this.lockedOnTarget.id );
-        //console.log( 'No longer locking on ' + this.lockedOnTarget.id );
+        console.log( 'target %o is no longer alive ', this.lockedOnTarget );
+        delete this.lockedOnTarget;
+      }
+      else if ( !this.bb.collidesWith( this.lockedOnTarget.bb ) )
+      {
+        console.log( 'target %o is outside range', this.lockedOnTarget );
         this.lockedOnTarget = null;
       }
       else if( this.coolTime == 0 )
