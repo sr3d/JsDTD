@@ -143,14 +143,16 @@ var Soot = Class.create( Sprite, {
   }
   
   ,die: function() {
-    console.log( 'Creep ' + this.id + ' is dead' );  
+    SOUNDS.pop.play();
+    
+    // console.log( 'Creep ' + this.id + ' is dead' );  
     this.isAlive = false;
     new Effect.Puff( this.id );
     $(this.id + '_hp').hide();
     
     window.game.addScores( this.getScores() );
     
-    SOUNDS.pop.play();
+    
   }
   
   ,escape: function() { 
