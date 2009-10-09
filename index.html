@@ -16,6 +16,8 @@ DEBUG_COLLISION = !true;
 <script type="text/javascript" charset="utf-8" src='javascripts/utilities.js'></script>
 <script type="text/javascript" charset="utf-8" src='javascripts/graph.js'></script>
 <!-- Core  Engine -->
+<script type="text/javascript" charset="utf-8" src='javascripts/soundmanager2-nodebug-jsmin.js'></script>
+
 <script type="text/javascript" charset="utf-8" src='javascripts/screen.js'></script>
 <script type="text/javascript" charset="utf-8" src='javascripts/gameconsole.js'></script>
 <script type="text/javascript" charset="utf-8" src='javascripts/collision.js'></script>
@@ -36,7 +38,7 @@ Event.observe( window, 'load', function() {
   window.game.addTower( 3, 12, Tower.Canon );
   window.game.addTower( 10, 11, Tower.Canon );
   window.game.addTower( 13, 15, Tower.Canon );
-  // window.game.addTower( 18, 14, Tower.Canon );
+  window.game.addTower( 18, 14, Tower.Canon );
   
   window.game.start();
   

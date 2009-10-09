@@ -7,7 +7,7 @@ var Soot = Class.create( Sprite, {
       ,friction:    1
       ,maxHP:       100
       ,level:       1
-      ,scores:      10
+      ,scores:      20
     }, options || {} );
     
     
@@ -45,6 +45,7 @@ var Soot = Class.create( Sprite, {
     if( this.wayPoint >= this.path.length )
     {
       /* creeps ran away! */
+      this.escape();
       
       this.wayPoint = 0;
       this._nextCoords = null;
@@ -148,6 +149,24 @@ var Soot = Class.create( Sprite, {
     $(this.id + '_hp').hide();
     
     window.game.addScores( this.getScores() );
+    
+    SOUNDS.pop.play();
+  }
+  
+  ,escape: function() { 
+    console.log( 'Creep ' + this.id + ' escaped!' );   
+    this.isAlive = false;
+    var self = this;
+    new Effect.Pulsate( this.id, {
+      duration: 0.5
+      ,afterFinish: function() { 
+        new Effect.Puff( self.id );
+        $(self.id + '_hp' ).hide();
+      }
+    } );
+    
+    window.game.creepsRunAway();
+    
   }
   
   ,getScores: function() { 
@@ -172,7 +191,7 @@ var SootLevel2 = Class.create( Soot, {
       ,friction:    1
       ,level:       2
       ,maxHP:       200
-      ,scores:      15
+      ,scores:      35
     }, options || {} );
 
     $super( grid, x, y, options );    
