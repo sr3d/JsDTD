@@ -13,6 +13,16 @@ Sprite.prototype = {
   ,getH : function() { return this.node.offsetHeight; }
   
   ,logStatus: function( msg ) { sl.log( this.id + " Status", msg ); }
+  ,getCenter: function() { 
+    var center = [ ( this.getX() + this.getW() )/2 , ( this.getY() + this.getH() ) / 2 ]; 
+    if( !this._center ) {
+      $('canvas').insert( { bottom: '<div class="center" style="left:'+ center[0]+ 'px; top:' + center[1]+'px;width: 2px; height: 2px;"></div>'})
+    }
+     
+    if( this.node ) this.node.addClassName( 'highlight' );
+    
+    console.log( "center %s, %o", center, this ); return center; 
+  }
 };
 
 
@@ -39,6 +49,7 @@ Tower.Base = Class.create( Sprite, {
       ,y: this.grid.xyToLeftTop( this.x, this.y - this.bbRadius/2 )[1]
     } );
     
+    window[ this.id ] = this;
     
     this.bb.update();
     
@@ -62,7 +73,8 @@ Tower.Canon = Class.create( Tower.Base, {
     $super( this.type, x, y, grid , options );
     
     /* for the turret */
-    this.centerCoords = this.grid.xyToLeftTop( this.x + this.size/2, this.y + this.size / 2 );
+    this.centerCoords = this.grid.xyToLeftTop( this.x + this.size/2, this.y + this.size / 2 ); // this.getCenter();
+    // console.log(  );
     
     this.radius = 10; // 10px around the center 
     
@@ -89,7 +101,8 @@ Tower.Canon = Class.create( Tower.Base, {
     { 
       if( !this.lockedOnTarget.isAlive || !this.bb.collidesWith( this.lockedOnTarget.bb ) )
       {
-        this.logStatus( 'No longer locking on ' + this.lockedOnTarget.id );
+        //this.logStatus( 'No longer locking on ' + this.lockedOnTarget.id );
+        //console.log( 'No longer locking on ' + this.lockedOnTarget.id );
         this.lockedOnTarget = null;
       }
       else if( this.coolTime == 0 )
@@ -101,8 +114,6 @@ Tower.Canon = Class.create( Tower.Base, {
         );
         
       }
-
-
       
       //this.updateTurret();
     }

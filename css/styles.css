@@ -25,12 +25,21 @@ body { font-family: arial; }
 .creep
 { position: absolute; width: 20px; height: 20px; }
   .hp_wrapper
-  {width: 20px; background-color: #BFBFBF; height: 4px; border: 1px solid #7F7F7F; margin-top: 18px; }
+  { width: 20px; background-color: #BFBFBF; height: 4px; border: 1px solid #7F7F7F; margin-top: 18px; }
     .hp
     { width: 80%; background-color: #B3FFAF; height: 4px;}
   
 .soot
 { background: url('../images/soot.png') no-repeat top left; }
 
+  .level_2
+  { background: url('../images/soot_level2.gif') no-repeat top left; }
+  
+    
 .bb
 { border: 1px solid red; position: absolute; }
+
+.highlight
+{ border: 1px solid red; }
+.center
+{ width: 2px; height: 2px; position: absolute; background-color: red; }

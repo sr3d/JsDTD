@@ -45,7 +45,9 @@ var Grid = Class.create( {
     for( var i = 0; i < tower.size; i++ )
       for( j = 0; j < tower.size; j++ )
         this.grid[ x + i][ y + j] = true;
-    
+
+    //this.recalculateAllCreepsPaths();
+    this.graph.markDirty();        
     return tower;
   }
   
@@ -55,15 +57,24 @@ var Grid = Class.create( {
     //console.log( 'Adding new creep: %o', creep );
     return creep;
   }
+
   
   ,calculatePath: function() { 
     //window.DEBUG = true;
-    var outGate = [ ( this.x - 1 ), Math.floor( this.y /2 ) ];
+    var outGate = this.getOutGate();
     var path = this.graph.aStar( 0, Math.floor( (this.y - 6 ) / 2 ), outGate[0], outGate[1] );
-    //console.log( path );
+    
     //window.DEBUG = false;
     return path;
   }
+  
+  ,calculatePathFromCoords: function( x, y ){
+    var outGate = this.getOutGate();
+    console.log( 'new path from %o to %o', arguments, outGate);
+    return this.graph.aStar( x, y, outGate[0], outGate[1] );    
+  }
+  
+  ,getOutGate: function() { return [ ( this.x - 1 ), Math.floor( this.y /2 ) ]; }
   
   ,getContainer: function() { return this.node; }
   ,getTowersContainer: function() { return $('towers'); }
@@ -105,6 +116,7 @@ var Grid = Class.create( {
   ,isWalkable: function( x, y ) { 
     return x >= 0 && x < this.grid.length && !this.grid[x][y]; 
   }
+  
   
 } )
 

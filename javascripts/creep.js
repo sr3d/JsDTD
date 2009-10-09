@@ -1,35 +1,45 @@
 var Soot = Class.create( Sprite, { 
-  initialize: function( $super, grid, x, y ) { 
+  initialize: function( $super, grid, x, y, options ) { 
     this.id       = 'soot_' + JsDTDConfig.nextInt() ;
-    this.speed    = 2;
-    this.friction = 1;
-    this.velocity = 0;
+    
+    options = Object.extend( { 
+      speed:        2
+      ,friction:    1
+      ,maxHP:       100
+      ,level:       1
+    }, options || {} );
+    
+    
+    this.speed    = options.speed;
+    this.friction = options.friction;
+    this.maxHP    = options.maxHP;
+    this.level    = options.level;
+
     this.type     = 'soot';
     this.isAlive  = true;
-
-    //this.x = 0;
-    //this.y = 100;
-
-    //this.setX( this.x );
-    //this.setY( this.y );
     
-    this.grid = grid;
+    this.grid = grid;    
     
-    this.bb = new BoundingShape.Rectangle( this.id, {x: this.x, y: this.y, w: 15, h: 15} );
-
+    this.initBoundingBox();
     this.render();
+
+    this.initHP();    
     
     $super( this.id );
-    
-    this.maxHP = 100;
-    this.currentHP = this.maxHP;
-    
+  }
+  
+  ,initBoundingBox: function() { this.bb = new BoundingShape.Rectangle( this.id, {x: this.x, y: this.y, w: 15, h: 15} ); } 
+  
+  ,initHP: function() { 
+    this.currentHP = this.maxHP; 
     this.updateHP();
   }
 
 	,getSpeed: function() { return this.speed - this.friction; }
 
   ,tick : function() {
+    if( !this.isAlive ) return;
+    
     if( this.wayPoint >= this.path.length )
     {
       this.wayPoint = 0;
@@ -76,7 +86,12 @@ var Soot = Class.create( Sprite, {
     this._nextCoords = this.grid.xyToLeftTop( this.path[ this.wayPoint ][0], this.path[ this.wayPoint ][1]  );
     return this._nextCoords;
   }
- 
+  
+  ,getCurrentGridCoords: function() { 
+    console.log( this.path[ this.wayPoint ][0], this.path[ this.wayPoint ][1] )
+    return [ this.path[ this.wayPoint ][0], this.path[ this.wayPoint ][1] ];
+  }
+  
 	,reset: function() { 
 	
 	}
@@ -88,8 +103,8 @@ var Soot = Class.create( Sprite, {
 	
 	,html: function() { 
     var coords = this.grid.xyToLeftTop( this.x, this.y );
-    var html   = "<div id='" + this.id + "' style='left:" + coords[0] + "px;top:" + coords[1] + "px' class='creep soot'><div id='" + this.id+ "_hp_wrapper' class='hp_wrapper'><div id='" + this.id + "_hp' class='hp'></div></div></div>";
-    return html
+    var html   = "<div id='" + this.id + "' style='left:" + coords[0] + "px;top:" + coords[1] + "px' class='creep soot level_"+ this.level +"'><div id='" + this.id+ "_hp_wrapper' class='hp_wrapper'><div id='" + this.id + "_hp' class='hp'></div></div></div>";
+    return html;
 	}
 	
 	,setPath: function( path ) { 
@@ -118,9 +133,15 @@ var Soot = Class.create( Sprite, {
     
     if( this.currentHP <= 0 )
     {
-      console.log( 'Creep ' + this.id + ' is dead' );  
-      this.isAlive = false;
+      this.die();
     }
+  }
+  
+  ,die: function() {
+    console.log( 'Creep ' + this.id + ' is dead' );  
+    this.isAlive = false;
+    new Effect.Puff( this.id );
+    $(this.id + '_hp').hide();
   }
   
   ,setHP: function( hp ) { this.hp = hp; if( this.hp > 0 ) this.isAlive = true; this.updateHP(); }
@@ -129,3 +150,25 @@ var Soot = Class.create( Sprite, {
 		$(this.id + '_hp').style.width = Math.floor( this.currentHP * 100 / this.maxHP ) + '%';
 	}  
 } );
+
+
+
+
+var SootLevel2 = Class.create( Soot, { 
+  initialize: function( $super, grid, x, y, options ) { 
+    
+    options = Object.extend( { 
+      speed:        2
+      ,friction:    1
+      ,level:       2
+      ,maxHP:       200
+    }, options || {} );
+
+    $super( grid, x, y, options );    
+  }
+
+} );
+
+
+
+

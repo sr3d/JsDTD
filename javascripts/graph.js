@@ -9,19 +9,20 @@ var l = function() {
 //var l = console.log;
 
 var Graph = function( graph, options ) {
-    this.graph = graph;
-    this.name = 'Graph';
-		this._paths = [];
-    
-    this.MOVE_COST      = 10;
-    this.X_MOVE_COST    = 21;
-    this.ALLOW_X_MOVE   = !true;  // no diagnal movement
+  this.graph = graph;
+  this.name = 'Graph';
+	this._paths = [];
+  
+  this.MOVE_COST      = 10;
+  this.X_MOVE_COST    = 21;
+  this.ALLOW_X_MOVE   = !true;  // no diagnal movement
 };
 
 Graph.prototype = { 
-   markDirty: function() { this.isDirty = true; 
-	   this._paths = [];
-	 }
+  markDirty: function() { 
+    this.isDirty = true; 
+	  this._paths = [];
+	}
   ,aStar: function( startX, startY, endX, endY ) {
 		//console.log( this._paths );
     /* return the cache version */

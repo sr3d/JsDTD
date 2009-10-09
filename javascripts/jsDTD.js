@@ -43,9 +43,12 @@ var JsDTD = Class.create( Console, {
     /* Register object to screen to tick */
     this.screen.registerObject( tower );
 
+    /* recalculate path */
+    this.recalculateAllCreepsPaths();
+    
     return tower;
   }
-  
+    
   ,addCreep: function( x, y, creepType ) {
     var creep = this.grid.addCreep( x, y, creepType );
     this.creeps.push( creep );
@@ -66,6 +69,21 @@ var JsDTD = Class.create( Console, {
     
   }
   
+  ,recalculateAllCreepsPaths: function() { 
+    /* update each creeps's path */
+    var i = this.creeps.length;
+    while( i-- )
+    {
+      // console.log( 'updating path for creep %s, %o', this.creeps[i].id, this.creeps[i]._getNextCoords() );
+      
+      var nextCoords = this.creeps[i].getCurrentGridCoords();
+      console.log( 'next coords %o', nextCoords );
+      this.creeps[ i ].setPath( 
+        this.grid.calculatePathFromCoords( nextCoords[0], nextCoords[1] )
+      );
+    }
+  }
+  
   ,start: function( $super ) {
     //this.addCreep( Soot );
     //this.addCreeps();
@@ -79,12 +97,12 @@ var JsDTD = Class.create( Console, {
     // time out so to make sure the app init correctly    
     setTimeout( function() { 
       setTimeout( function() { self.addCreep( 0 , 0, Soot ) }, 1000 );
-      setTimeout( function() { self.addCreep( 0 , 0, Soot ) }, 3000 );
+      setTimeout( function() { self.addCreep( 0 , 0, SootLevel2 ) }, 3000 );
       setTimeout( function() { self.addCreep( 0 , 0, Soot ) }, 5000 );
       setTimeout( function() { self.addCreep( 0 , 0, Soot ) }, 8000 );
-      setTimeout( function() { self.addCreep( 0 , 0, Soot ) }, 10000 );
+      setTimeout( function() { self.addCreep( 0 , 0, SootLevel2 ) }, 10000 );
       setTimeout( function() { self.addCreep( 0 , 0, Soot ) }, 15000 );
-      setTimeout( function() { self.addCreep( 0 , 0, Soot ) }, 17000 );
+      setTimeout( function() { self.addCreep( 0 , 0, SootLevel2 ) }, 17000 );
       setTimeout( function() { self.addCreep( 0 , 0, Soot ) }, 18000 );
     }, 500 );
   }
