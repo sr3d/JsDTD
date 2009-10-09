@@ -134,7 +134,7 @@ var JsDTD = Class.create( Console, {
           clearInterval( this._animatedScores );
           this._animatedScores = null;
         }
-      }.bind(this), 20 );
+      }.bind(this), 50 );
     }
   }
   

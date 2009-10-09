@@ -20,16 +20,16 @@ body { font-family: arial; }
     .turret
     { width: 4px; height: 4px; background-color: black; position: absolute; display: none;}
 .bullet
-{ position: absolute; }
+{ position: absolute; font-size: 0px; }
   .canon_level_1
-  { width: 3px; height: 3px; background-color: black; }
+  { width: 3px; height: 3px; line-height: 3px; background-color: black; }
 
 .creep
 { position: absolute; width: 20px; height: 20px; }
   .hp_wrapper
-  { width: 20px; background-color: #BFBFBF; height: 4px; border: 1px solid #7F7F7F; margin-top: 18px; }
+  { width: 20px; background-color: #BFBFBF; height: 4px; border: 1px solid #7F7F7F; margin-top: 18px; line-height: 4px;font-size: 0px;}
     .hp
-    { width: 80%; background-color: #B3FFAF; height: 4px;}
+    { width: 80%; background-color: #B3FFAF; height: 4px;line-height: 4px; font-size: 0px;}
   
 .soot
 { background: url('../images/soot.png') no-repeat top left; }
