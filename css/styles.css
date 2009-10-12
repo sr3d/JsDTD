@@ -14,11 +14,18 @@ body { font-family: arial; }
 { font-size: 30px; color:#7F7F7F; }
 
 
-.tower { position: absolute; }
+.tower { position: absolute; border: 1px solid transparant; }
   .canon
   { background: url('../images/tower_1.png') no-repeat top left; }
     .turret
     { width: 4px; height: 4px; background-color: black; position: absolute; display: none;}
+    
+.tower_select
+{ border: 1px solid red !important; }    
+
+#overlay
+{ border: 1px solid green; position: absolute; }
+    
 .bullet
 { position: absolute; font-size: 0px; }
   .canon_level_1

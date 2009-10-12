@@ -98,6 +98,9 @@ Tower.Canon = Class.create( Tower.Base, {
         $(this.lockedOnTarget.id).removeClassName( 'lockedOn' );
     }.bind(this) );
     
+    /* add to tower tray */
+    
+    
   }
   
   ,html: function() { 
@@ -107,6 +110,10 @@ Tower.Canon = Class.create( Tower.Base, {
                 ";width:"+ JsDTDConfig.cellSize * this.size +   "px; height:" + JsDTDConfig.cellSize * this.size +"px'" + 
                 " class='tower canon'><div id='" + this.id +"_turret' class='turret'></div></div>";
     return html;
+  }
+  
+  ,buttonHtml: function() { 
+
   }
   
   ,tick: function() { 
@@ -163,4 +170,6 @@ Tower.Canon = Class.create( Tower.Base, {
   }
 
 } );
+
+
 

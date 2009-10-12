@@ -12,11 +12,12 @@ DEBUG_COLLISION = !true;
 <script type="text/javascript" charset="utf-8" src='http://ajax.googleapis.com/ajax/libs/prototype/1.6.0.3/prototype.js'></script>
 -->
 <script type="text/javascript" charset="utf-8" src='javascripts/prototype.js'></script>
-<script type="text/javascript" charset="utf-8" src='javascripts/scriptaculous.js?load=effects'></script>
+<script type="text/javascript" charset="utf-8" src='javascripts/scriptaculous.js'></script>
 <script type="text/javascript" charset="utf-8" src='javascripts/utilities.js'></script>
 <script type="text/javascript" charset="utf-8" src='javascripts/graph.js'></script>
 <!-- Core  Engine -->
 <script type="text/javascript" charset="utf-8" src='javascripts/soundmanager2-nodebug-jsmin.js'></script>
+<script type="text/javascript" charset="utf-8" src='javascripts/audio.js'></script>
 
 <script type="text/javascript" charset="utf-8" src='javascripts/screen.js'></script>
 <script type="text/javascript" charset="utf-8" src='javascripts/gameconsole.js'></script>
@@ -26,6 +27,8 @@ DEBUG_COLLISION = !true;
 <script type="text/javascript" charset="utf-8" src='javascripts/tower.js'></script>
 <script type="text/javascript" charset="utf-8" src='javascripts/creep.js'></script>
 <script type="text/javascript" charset="utf-8" src='javascripts/bullet.js'></script>
+
+<script type="text/javascript" charset="utf-8" src='javascripts/buttons.js'></script>
 
 <!-- Game -->
 <script type="text/javascript" charset="utf-8" src='javascripts/jsDTD.js'></script>
@@ -41,6 +44,9 @@ Event.observe( window, 'load', function() {
   window.game.addTower( 18, 14, Tower.Canon );
   
   window.game.start();
+  
+  /* Configure buttons */
+  new CanonButton();
   
 } );
 </script>
@@ -71,11 +77,16 @@ Event.observe( window, 'load', function() {
 	  </div>
 	  <div id='bullets'>
 	  </div>
+	  
+	  <div id="overlay">
+	    
+	  </div>
   </div>
   
-  <div id="">
-    
+  <div style='margin: 0 auto; width: 520px;height: 60px;'>
+    <div id="buttons_wrapper"></div>
   </div>
+  
 </body>
 
 </html>

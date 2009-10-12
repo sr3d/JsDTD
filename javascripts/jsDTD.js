@@ -146,19 +146,3 @@ var JsDTD = Class.create( Console, {
   }
     
 } );
-
-/* */
-var sm          = soundManager;
-sm.url          = "./audio/";
-sm.flashVersion = 9;
-sm.debugMode    = false;
-sm.onready( function() { 
-  window.SOUNDS = {
-    pop: sm.createSound({
-      id: 'sound_pop',
-      url: './audio/pop.mp3'
-    })
-  };
-  
-} );  
-  
