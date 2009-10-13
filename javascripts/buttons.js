@@ -38,11 +38,28 @@ Event.observe( window, 'load', function() {
   $('canvas').observe( 'mouseover', function() { 
     if( window.currentTower )
     {
-      $('overlay').show();
+      var overlay = $('overlay').show();
+      
+      /* check for availability */
+      window._gridStatus = setInterval( function() { 
+        //console.log( 'checking grid status' );
+        
+        if( window.game.checkGridStatus( 
+          parseInt(overlay.style.left), 
+          parseInt(overlay.style.top), 
+          parseInt(overlay.style.left) + overlay.offsetWidth -1, 
+          parseInt(overlay.style.top) + overlay.offsetHeight - 1 ) )
+          overlay.removeClassName( 'invalid' );
+        else
+          overlay.addClassName( 'invalid' );
+      }, 20 );
+      
     }
     else
     {
       $('overlay').hide();
+      clearInterval( window._gridStatus );
+      window._gridStatus = null;
     }
     
   } ); // canvas.observe
@@ -50,15 +67,19 @@ Event.observe( window, 'load', function() {
 
   /* Mouse Out */
   $('canvas').observe( 'mouseout', function() { 
-    $('overlay').hide();
+      clearInterval( window._gridStatus );
+      window._gridStatus = null;
   } );
 
   $('canvas').observe( 'mousemove', function( event ) { 
     var e = event || window.event;
-     var x = 0,y = 0;
-     x = e.clientX - $('canvas').offsetLeft - 10;
+     var x = 0, y = 0;
+     x = e.clientX - $('canvas').offsetLeft - 10 /* padding */;
      y = e.clientY - $('canvas').offsetTop - 10;
 
+    /* snap */
+    x = x - x % 20;
+    y = y - y % 20;
     $('overlay').style.left = x + 'px';
     $('overlay').style.top  = y + 'px';
     

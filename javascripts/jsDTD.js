@@ -144,5 +144,13 @@ var JsDTD = Class.create( Console, {
     $('lives').innerHTML = this.lives;
     $('scores').innerHTML = this.scores;
   }
+  
+  ,checkGridStatus: function( x1,y1, x2, y2 ) // top, right, left, bottom
+  {
+    /* check grid status */
+    //console.log( arguments )
+    return this.grid.isRegionAvailable( x1, y1, x2, y2 );
+    
+  }
     
 } );

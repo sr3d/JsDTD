@@ -25,6 +25,8 @@ body { font-family: arial; }
 
 #overlay
 { border: 1px solid green; position: absolute; }
+#overlay.invalid
+{ border: 1px solid red !important; }
     
 .bullet
 { position: absolute; font-size: 0px; }

@@ -109,14 +109,25 @@ var Grid = Class.create( {
     return [ x * this.cellSize, y * this.cellSize ];
   }
   
-  ,topLeftToXY: function ( left, top ) { 
-    return Math.floor( )
+  ,posToGridCoords: function ( left, top ) { 
+    return [ Math.floor( left / this.cellSize ), Math.floor( top / this.cellSize ) ] ;
   }
   
   ,isWalkable: function( x, y ) { 
     return x >= 0 && x < this.grid.length && !this.grid[x][y]; 
   }
   
+  ,isRegionAvailable: function( X1, Y1, X2, Y2 )
+  {
+    var coords = [ this.posToGridCoords( X1, Y1 ), this.posToGridCoords( X2, Y2 ) ];
+    for( i = coords[0][0]; i < coords[1][0]; i++ )
+      for( j = coords[0][1]; j < coords[1][1]; j++ )
+      {
+        if( !this.isWalkable( i, j ) )
+          return false;
+      }
+    return true;
+  }
   
 } )
 
