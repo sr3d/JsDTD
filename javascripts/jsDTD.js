@@ -42,6 +42,8 @@ var JsDTD = Class.create( Console, {
   
   ,addTower: function( x, y, tower ) {
     /* TODO: check to see if tower can be built */
+    this.checkGridStatus( );
+    
     var tower = this.grid.addTower( x, y, tower )
     this.towers.push( tower );
     
@@ -81,8 +83,10 @@ var JsDTD = Class.create( Console, {
     {
       // console.log( 'updating path for creep %s, %o', this.creeps[i].id, this.creeps[i]._getNextCoords() );
       
+      if( !this.creeps[i].isAlive )
+        continue;
+        
       var nextCoords = this.creeps[i].getCurrentGridCoords();
-      console.log( 'next coords %o', nextCoords );
       this.creeps[ i ].setPath( 
         this.grid.calculatePathFromCoords( nextCoords[0], nextCoords[1] )
       );
@@ -148,9 +152,29 @@ var JsDTD = Class.create( Console, {
   ,checkGridStatus: function( x1,y1, x2, y2 ) // top, right, left, bottom
   {
     /* check grid status */
-    //console.log( arguments )
-    return this.grid.isRegionAvailable( x1, y1, x2, y2 );
+    if( !this.grid.isRegionAvailable( x1, y1, x2, y2 ) )
+      return false;
+      
+    /* now overlapping with Creeps */
+    /* this is a hack to have create a temporary bounding box */
+    var bb = { x: x1, y: y1, w: x2 - x1, h: y2 - y1, isEnabled: true };
+    var i = this.creeps.length;
+    while( i-- )
+    {
+      if( !this.creeps[i].isAlive ) continue;
+      
+      if( this.creeps[i].bb.collidesWith( bb ) )
+      {
+        return false;
+      }
+    }
     
+    return true;
+  }
+  
+  ,posToGridCoords: function( left, top )
+  {
+    return this.grid.posToGridCoords( left, top );
   }
     
 } );

@@ -21,7 +21,7 @@ Sprite.prototype = {
      
     if( this.node ) this.node.addClassName( 'highlight' );
     
-    console.log( "center %s, %o", center, this ); return center; 
+    // console.log( "center %s, %o", center, this ); return center; 
   }
 };
 

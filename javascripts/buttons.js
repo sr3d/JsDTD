@@ -34,7 +34,21 @@ var CanonButton = Class.create({
 }); 
 
 
+
 Event.observe( window, 'load', function() { 
+  $('overlay').setOpacity( 0.8 ); 
+  
+  $('overlay').observe('click', function() { 
+    var pos = window.game.posToGridCoords( 
+      parseInt( $('overlay').style.left )
+      ,parseInt( $('overlay').style.top )
+    );
+    
+    window.game.addTower( pos[0], pos[1], window.currentTower );
+    
+  } )
+  
+  
   $('canvas').observe( 'mouseover', function() { 
     if( window.currentTower )
     {
@@ -52,7 +66,7 @@ Event.observe( window, 'load', function() {
           overlay.removeClassName( 'invalid' );
         else
           overlay.addClassName( 'invalid' );
-      }, 20 );
+      }, 50 );
       
     }
     else
@@ -82,7 +96,6 @@ Event.observe( window, 'load', function() {
     y = y - y % 20;
     $('overlay').style.left = x + 'px';
     $('overlay').style.top  = y + 'px';
-    
   } );
   
 } );

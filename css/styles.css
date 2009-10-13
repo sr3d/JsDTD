@@ -24,9 +24,9 @@ body { font-family: arial; }
 { border: 1px solid red !important; }    
 
 #overlay
-{ border: 1px solid green; position: absolute; }
+{ border: 1px solid green; background-color: #9FFFC7; position: absolute;}
 #overlay.invalid
-{ border: 1px solid red !important; }
+{ border: 1px solid red !important; background-color: #FF9F9F; }
     
 .bullet
 { position: absolute; font-size: 0px; }

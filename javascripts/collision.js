@@ -44,7 +44,7 @@ BoundingShape.Rectangle = Class.create( BoundingShape.Base, {
 		if( bottom1 < top2 ) return false;
 
 		var top1 = this.y;
-		var bottom2 = shape.y + shape.h;		
+		var bottom2 = shape.y + shape.h;
 		if( top1 > bottom2 ) return false;
 
 		var right1 = this.x + this.w;

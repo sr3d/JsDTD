@@ -117,6 +117,7 @@ var Grid = Class.create( {
     return x >= 0 && x < this.grid.length && !this.grid[x][y]; 
   }
   
+  /* check the region to see if the region (with abs positions) is available  */
   ,isRegionAvailable: function( X1, Y1, X2, Y2 )
   {
     var coords = [ this.posToGridCoords( X1, Y1 ), this.posToGridCoords( X2, Y2 ) ];
