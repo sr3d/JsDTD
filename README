@@ -1,0 +1,18 @@
+TODO
+====
+1.  Spawner for creeps.  
+    Ability to setup for levels and waves
+2.  Upgrate Towers
+3.  More creep variants
+4.  Implement building costs
+5.  Implement Selling towers
+6.  Implement coloring for in and out gate
+7.  Implement bonus (or multiplier) for killing creeps closer to out gate
+8.  audio for shooting at creeps
+9.  better audio for creep exploding
+10. diagonal tower is too spaced-out -- better graphics?
+
+
+BUGS
+====
+1.  Overlay outside the canvas area

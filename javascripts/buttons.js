@@ -96,6 +96,9 @@ Event.observe( window, 'load', function() {
     y = y - y % 20;
     $('overlay').style.left = x + 'px';
     $('overlay').style.top  = y + 'px';
+    
+    
+    
   } );
   
 } );
