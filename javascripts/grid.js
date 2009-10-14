@@ -37,6 +37,20 @@ var Grid = Class.create( {
     }
   }
   
+  ,cloneGrid: function() { 
+    var grid = [];
+    for( var i = 0; i < this.x; i++ )
+    {
+      grid[i] = [];
+      
+      for( var j = 0; j < this.y; j++ )
+      {
+        grid[i][j] = this.grid[i][j];
+      }
+    }
+    return grid;
+  }
+  
   /* add a new Tower to the grid at a coordinates */
   ,addTower: function( x, y, tower ){
     var tower = new tower( x, y, this );
@@ -47,8 +61,20 @@ var Grid = Class.create( {
         this.grid[ x + i][ y + j] = true;
 
     //this.recalculateAllCreepsPaths();
-    this.graph.markDirty();        
+    this.graph.markDirty();
     return tower;
+  }
+  
+  ,canBuildTower: function( x, y, tower )
+  {
+    var grid = this.cloneGrid();
+    for( var i = 0; i < tower.size; i++ )
+      for( j = 0; j < tower.size; j++ )
+        grid[ x + i ][ y + j ] = true;
+    
+    var inGate  = this.getInGate();
+    var outGate = this.getOutGate();
+    return !! ( (new Graph( grid )).aStar( inGate[0], inGate[1], outGate[0], outGate[1] ) );
   }
   
   ,addCreep: function( x, y, creepType ) { 
@@ -58,11 +84,12 @@ var Grid = Class.create( {
     return creep;
   }
 
-  
+  /* calculate the default shortest path from inGate to outGate */
   ,calculatePath: function() { 
     //window.DEBUG = true;
+    var inGate = this.getInGate();
     var outGate = this.getOutGate();
-    var path = this.graph.aStar( 0, Math.floor( (this.y - 6 ) / 2 ), outGate[0], outGate[1] );
+    var path = this.graph.aStar( inGate[0], inGate[1], outGate[0], outGate[1] );
     
     //window.DEBUG = false;
     return path;
@@ -70,10 +97,10 @@ var Grid = Class.create( {
   
   ,calculatePathFromCoords: function( x, y ){
     var outGate = this.getOutGate();
-    console.log( 'new path from %o to %o', arguments, outGate);
     return this.graph.aStar( x, y, outGate[0], outGate[1] );    
   }
   
+  ,getInGate: function() { return [ 0, Math.floor( (this.y - 6 ) / 2 ) ]; }
   ,getOutGate: function() { return [ ( this.x - 1 ), Math.floor( this.y /2 ) ]; }
   
   ,getContainer: function() { return this.node; }

@@ -73,10 +73,9 @@ Tower.Canon = Class.create( Tower.Base, {
     $super( this.type, x, y, grid , options );
     
     /* for the turret */
-    this.centerCoords = this.grid.xyToLeftTop( this.x + this.size/2, this.y + this.size / 2 ); // this.getCenter();
-    // console.log(  );
+    this.centerCoords = this.grid.xyToLeftTop( this.x + this.size/2, this.y + this.size / 2 ); 
     
-    this.radius = 10; // 10px around the center 
+    this.radius = 10; // the range 10px around the center 
     
     this.updateTurret();
     
@@ -88,6 +87,7 @@ Tower.Canon = Class.create( Tower.Base, {
     this.node   = $(this.id);
     this.turret = $( this.id + '_turret' );
     
+    /*
     this.node.observe( 'mouseover', function() { 
       if( this.lockedOnTarget )
       {
@@ -97,9 +97,7 @@ Tower.Canon = Class.create( Tower.Base, {
       if( this.lockedOnTarget )
         $(this.lockedOnTarget.id).removeClassName( 'lockedOn' );
     }.bind(this) );
-    
-    /* add to tower tray */
-    
+    */
     
   }
   

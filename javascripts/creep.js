@@ -5,7 +5,7 @@ var Soot = Class.create( Sprite, {
     options = Object.extend( { 
       speed:        2
       ,friction:    1
-      ,maxHP:       100 * 100
+      ,maxHP:       100
       ,level:       1
       ,scores:      20
     }, options || {} );

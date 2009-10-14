@@ -46,12 +46,16 @@ var JsDTD = Class.create( Console, {
     if( !this.checkGridStatus( 
         absCoords[0],
         absCoords[1],
-        absCoords[0] + this.grid.cellSize * tower.size - 1, 
-        absCoords[1] + this.grid.cellSize * tower.size - 1 ) )
+        absCoords[0] + this.grid.cellSize * tower.size, 
+        absCoords[1] + this.grid.cellSize * tower.size ) )
       return false;
 
     /* Check for closure */
-    
+    if( !this.grid.canBuildTower( x, y, tower ) )
+    {
+      // console.log( "can't build tower, blocking" );
+      return false;
+    }
     
     var tower = this.grid.addTower( x, y, tower )
     this.towers.push( tower );
