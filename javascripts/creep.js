@@ -5,7 +5,7 @@ var Soot = Class.create( Sprite, {
     options = Object.extend( { 
       speed:        2
       ,friction:    1
-      ,maxHP:       100
+      ,maxHP:       100 * 100
       ,level:       1
       ,scores:      20
     }, options || {} );
@@ -113,9 +113,12 @@ var Soot = Class.create( Sprite, {
 	}
 	
 	,setPath: function( path ) { 
-	  this.path = path;
-	  //this.highlightPath();
-	  this.resetPosition();
+	  var shouldResetPosition = !!!this.path;
+    this.path       = path;
+    this.wayPoint   = 0;
+	  
+	  if( shouldResetPosition )
+	    this.resetPosition();
 	}
 	
 	,highlightPath: function() {

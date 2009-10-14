@@ -171,5 +171,5 @@ Tower.Canon = Class.create( Tower.Base, {
 
 } );
 
-
+Tower.Canon.size = 2;
 

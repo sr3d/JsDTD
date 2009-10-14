@@ -16,7 +16,7 @@ var CanonButton = Class.create({
       $('overlay').style.height = '40px';
       
       window.currentTower = Tower.Canon;
-      
+
     }.bind(this) );
     
     /* bind Escape key */
@@ -61,7 +61,7 @@ Event.observe( window, 'load', function() {
         if( window.game.checkGridStatus( 
           parseInt(overlay.style.left), 
           parseInt(overlay.style.top), 
-          parseInt(overlay.style.left) + overlay.offsetWidth -1, 
+          parseInt(overlay.style.left) + overlay.offsetWidth - 1 /* so that we round it down */, 
           parseInt(overlay.style.top) + overlay.offsetHeight - 1 ) )
           overlay.removeClassName( 'invalid' );
         else
