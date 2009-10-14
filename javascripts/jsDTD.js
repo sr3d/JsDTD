@@ -117,19 +117,49 @@ var JsDTD = Class.create( Console, {
     this.grid.calculatePath();
 
     // time out so to make sure the app init correctly    
+    //setTimeout( function() { 
+    //  setTimeout( function() { self.addCreep( 0 , 0, Soot ) }, 1000 );
+    //  setTimeout( function() { self.addCreep( 0 , 0, SootLevel2 ) }, 3000 );
+    //  setTimeout( function() { self.addCreep( 0 , 0, Soot ) }, 5000 );
+    //  setTimeout( function() { self.addCreep( 0 , 0, Soot ) }, 8000 );
+    //  setTimeout( function() { self.addCreep( 0 , 0, SootLevel2 ) }, 10000 );
+    //  setTimeout( function() { self.addCreep( 0 , 0, Soot ) }, 15000 );
+    //  setTimeout( function() { self.addCreep( 0 , 0, SootLevel2 ) }, 17000 );
+    //  setTimeout( function() { self.addCreep( 0 , 0, Soot ) }, 18000 );
+    //  setTimeout( function() { self.addCreep( 0 , 0, SootLevel2 ) }, 19000 );
+    //  setTimeout( function() { self.addCreep( 0 , 0, Soot ) }, 22000 );
+    //}, 500 );
+    
+    window.currentWave = 0;
+    var wave = window.gameTrigger[ window.currentWave ];
     setTimeout( function() { 
-      setTimeout( function() { self.addCreep( 0 , 0, Soot ) }, 1000 );
-      setTimeout( function() { self.addCreep( 0 , 0, SootLevel2 ) }, 3000 );
-      setTimeout( function() { self.addCreep( 0 , 0, Soot ) }, 5000 );
-      setTimeout( function() { self.addCreep( 0 , 0, Soot ) }, 8000 );
-      setTimeout( function() { self.addCreep( 0 , 0, SootLevel2 ) }, 10000 );
-      setTimeout( function() { self.addCreep( 0 , 0, Soot ) }, 15000 );
-      setTimeout( function() { self.addCreep( 0 , 0, SootLevel2 ) }, 17000 );
-      setTimeout( function() { self.addCreep( 0 , 0, Soot ) }, 18000 );
-      setTimeout( function() { self.addCreep( 0 , 0, SootLevel2 ) }, 19000 );
-      setTimeout( function() { self.addCreep( 0 , 0, Soot ) }, 22000 );
-    }, 500 );
+      var currentTimeout = 0;
+      for( i = 0; i < wave.creeps.length; i++ )
+      {
+        currentTimeout += Math.random() * ( wave.delayMax - wave.delayMin )  + wave.delayMin;
+
+        /* trigger sub-waves */
+        setTimeout( function(a) { 
+          /* have to return a new function using the argument so that 
+             the for loop "i" index is evaluated correctly in the nested
+             setTimeout.  Sweet!
+           */
+          return function() {
+            for( j = 0; j < wave.creeps[ a ].count; j++ )
+            {
+              /* pause a bit between each creeps */
+              setTimeout( function() { 
+                self.addCreep( 0, 0, wave.creeps[ a ].type );
+              }, ( Math.random() * 5 + 4 ) * 1000);
+            }
+          };
+        }( i ), currentTimeout * 1000 );
+      }
+      
+    }, wave.when * 1000 );
   }
+
+  
   
   ,creepsRunAway: function() { 
     this.lives--;
